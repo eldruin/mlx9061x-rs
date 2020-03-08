@@ -1,0 +1,35 @@
+[package]
+name = "mlx9061x"
+version = "0.1.0"
+authors = ["Diego Barrios Romero <eldruin@gmail.com>"]
+repository = "https://github.com/eldruin/mlx9061x-rs"
+license = "MIT OR Apache-2.0"
+description = "Platform-agnostic Rust driver for the mlx9061x infrared thermometers. Compatible with MLX90614."
+readme = "README.md"
+keywords = ["infrared", "thermometer", "temperature", "sensor", "embedded-hal-driver"]
+categories = ["embedded", "hardware-support", "no-std"]
+homepage = "https://github.com/eldruin/mlx9061x-rs"
+documentation = "https://docs.rs/mlx9061x"
+include = [
+    "/**/*.rs",
+    "/Cargo.toml",
+    "/README.md",
+    "/CHANGELOG.md",
+    "/LICENSE-MIT",
+    "/LICENSE-APACHE",
+]
+edition = "2018"
+
+[badges]
+travis-ci = { repository = "eldruin/mlx9061x-rs", branch = "master" }
+coveralls = { repository = "eldruin/mlx9061x-rs", branch = "master", service = "github" }
+
+[dependencies]
+embedded-hal = "0.2"
+
+[dev-dependencies]
+linux-embedded-hal = "0.2"
+embedded-hal-mock = "0.7"
+
+[profile.release]
+lto = true
