@@ -30,6 +30,8 @@ use core::marker::PhantomData;
 mod device_impl;
 mod types;
 pub use crate::types::{ic, Error};
+mod register_address;
+use register_address::{mlx90614, DEV_ADDR};
 
 /// mlx9061x device driver
 #[derive(Debug)]
