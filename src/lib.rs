@@ -30,8 +30,8 @@ use core::marker::PhantomData;
 mod device_impl;
 mod types;
 pub use crate::types::{ic, Error};
-mod register_address;
-use register_address::{mlx90614, DEV_ADDR};
+mod register_access;
+use register_access::mlx90614;
 mod crc8;
 use crate::crc8::crc8;
 

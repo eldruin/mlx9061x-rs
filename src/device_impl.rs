@@ -1,4 +1,4 @@
-use crate::{crc8, ic, mlx90614, Error, Mlx9061x, DEV_ADDR};
+use crate::{ic, mlx90614, Error, Mlx9061x};
 use core::marker::PhantomData;
 use embedded_hal::blocking::i2c;
 
@@ -44,37 +44,5 @@ where
         let t = self.read_u16(mlx90614::Register::TOBJ2)?;
         let t = f32::from(t) * 0.02 - 273.15;
         Ok(t)
-    }
-}
-
-impl<E, I2C, IC> Mlx9061x<I2C, IC>
-where
-    I2C: i2c::WriteRead<Error = E>,
-{
-    fn read_u16(&mut self, register: u8) -> Result<u16, Error<E>> {
-        let mut data = [0; 3];
-        self.i2c
-            .write_read(DEV_ADDR, &[register], &mut data)
-            .map_err(Error::I2C)?;
-        let pec = data[2];
-        Self::check_pec(
-            &[
-                DEV_ADDR << 1,
-                register,
-                (DEV_ADDR << 1) + 1,
-                data[0],
-                data[1],
-            ],
-            pec,
-        )?;
-        Ok(u16::from(data[0]) | (u16::from(data[1]) << 8))
-    }
-
-    fn check_pec(data: &[u8], expected: u8) -> Result<(), Error<E>> {
-        if crc8(data) != expected {
-            Err(Error::ChecksumMismatch)
-        } else {
-            Ok(())
-        }
     }
 }

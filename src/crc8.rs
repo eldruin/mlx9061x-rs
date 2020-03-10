@@ -19,7 +19,7 @@ pub fn crc8(data: &[u8]) -> u8 {
 
 #[cfg(test)]
 mod tests {
-    use crate::{crc8, mlx90614, DEV_ADDR as ADDR};
+    use crate::{crc8, mlx90614, register_access::DEV_ADDR as ADDR};
 
     #[test]
     fn check_crc8_table() {
