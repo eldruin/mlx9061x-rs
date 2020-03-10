@@ -45,4 +45,14 @@ where
         let t = f32::from(t) * 0.02 - 273.15;
         Ok(t)
     }
+
+    /// Read the channel 1 raw IR data
+    pub fn raw_ir_channel1(&mut self) -> Result<u16, Error<E>> {
+        self.read_u16(mlx90614::Register::RAW_IR1)
+    }
+
+    /// Read the channel 2 raw IR data
+    pub fn raw_ir_channel2(&mut self) -> Result<u16, Error<E>> {
+        self.read_u16(mlx90614::Register::RAW_IR2)
+    }
 }

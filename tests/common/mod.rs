@@ -5,6 +5,8 @@ pub const ADDR: u8 = 0x5A;
 pub mod mlx90614 {
     pub struct Register {}
     impl Register {
+        pub const RAW_IR1: u8 = 0x04;
+        pub const RAW_IR2: u8 = 0x05;
         pub const TA: u8 = 0x06;
         pub const TOBJ1: u8 = 0x07;
         pub const TOBJ2: u8 = 0x08;
