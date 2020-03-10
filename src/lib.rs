@@ -32,6 +32,8 @@ mod types;
 pub use crate::types::{ic, Error};
 mod register_address;
 use register_address::{mlx90614, DEV_ADDR};
+mod crc8;
+use crate::crc8::crc8;
 
 /// mlx9061x device driver
 #[derive(Debug)]
