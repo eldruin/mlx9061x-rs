@@ -31,7 +31,7 @@ mod device_impl;
 mod types;
 pub use crate::types::{ic, Error};
 mod register_access;
-use register_access::mlx90614;
+use crate::register_access::mlx90614;
 mod crc8;
 use crate::crc8::crc8;
 
