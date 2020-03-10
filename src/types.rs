@@ -3,6 +3,8 @@
 pub enum Error<E> {
     /// I²C bus error
     I2C(E),
+    /// CRC checksum mismatch (PEC)
+    ChecksumMismatch,
 }
 
 /// IC marker

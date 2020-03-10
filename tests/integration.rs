@@ -1,6 +1,7 @@
 mod common;
 use crate::common::{destroy, mlx90614, new_mlx90614, ADDR};
 use embedded_hal_mock::i2c::Transaction as I2cTrans;
+use mlx9061x::Error;
 
 #[test]
 fn can_create_and_destroy() {
@@ -53,5 +54,16 @@ fn can_read_ambient_temperature4() {
     )]);
     let t = sensor.ambient_temperature().unwrap();
     assert_near!(t, 24.57, 0.1);
+    destroy(sensor);
+}
+
+#[test]
+fn read_ambient_temperature_crc_mismatch() {
+    let mut sensor = new_mlx90614(&[I2cTrans::write_read(
+        ADDR,
+        vec![mlx90614::Register::TA],
+        vec![225, 57, 234],
+    )]);
+    assert_crc_mismatch!(sensor.ambient_temperature());
     destroy(sensor);
 }

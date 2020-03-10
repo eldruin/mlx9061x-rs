@@ -24,3 +24,13 @@ macro_rules! assert_near {
         assert!(($value + $epsilon) > $expected);
     };
 }
+
+#[macro_export]
+macro_rules! assert_crc_mismatch {
+    ($result: expr) => {
+        match $result {
+            Err(Error::ChecksumMismatch) => (),
+            _ => panic!("Would not block."),
+        }
+    };
+}
