@@ -23,9 +23,25 @@ impl<E, I2C, IC> Mlx9061x<I2C, IC>
 where
     I2C: i2c::WriteRead<Error = E>,
 {
-    /// Read the ambient temperature
+    /// Read the ambient temperature in celsius degrees
     pub fn ambient_temperature(&mut self) -> Result<f32, Error<E>> {
         let t = self.read_u16(mlx90614::Register::TA)?;
+        let t = f32::from(t) * 0.02 - 273.15;
+        Ok(t)
+    }
+
+    /// Read the object 1 temperature in celsius degrees
+    pub fn object1_temperature(&mut self) -> Result<f32, Error<E>> {
+        let t = self.read_u16(mlx90614::Register::TOBJ1)?;
+        let t = f32::from(t) * 0.02 - 273.15;
+        Ok(t)
+    }
+
+    /// Read the object 2 temperature in celsius degrees
+    ///
+    /// Note that this is only available in dual-zone device variants.
+    pub fn object2_temperature(&mut self) -> Result<f32, Error<E>> {
+        let t = self.read_u16(mlx90614::Register::TOBJ2)?;
         let t = f32::from(t) * 0.02 - 273.15;
         Ok(t)
     }

@@ -30,6 +30,30 @@ read_ambient_temp_test!(can_read_ambient_temp3, 107, 58, 212, 25.95);
 read_ambient_temp_test!(can_read_ambient_temp4, 38, 58, 102, 24.57);
 
 #[test]
+fn can_read_obj1_temperature() {
+    let mut sensor = new_mlx90614(&[I2cTrans::write_read(
+        ADDR,
+        vec![mlx90614::Register::TOBJ1],
+        vec![38, 58, 112],
+    )]);
+    let t = sensor.object1_temperature().unwrap();
+    assert_near!(t, 24.57, 0.1);
+    destroy(sensor);
+}
+
+#[test]
+fn can_read_obj2_temperature() {
+    let mut sensor = new_mlx90614(&[I2cTrans::write_read(
+        ADDR,
+        vec![mlx90614::Register::TOBJ2],
+        vec![38, 58, 162],
+    )]);
+    let t = sensor.object2_temperature().unwrap();
+    assert_near!(t, 24.57, 0.1);
+    destroy(sensor);
+}
+
+#[test]
 fn read_ambient_temperature_crc_mismatch() {
     let mut sensor = new_mlx90614(&[I2cTrans::write_read(
         ADDR,
