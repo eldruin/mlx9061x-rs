@@ -47,8 +47,8 @@ mod tests {
             0x84, 0x83, 0xDE, 0xD9, 0xD0, 0xD7, 0xC2, 0xC5, 0xCC, 0xCB, 0xE6, 0xE1, 0xE8, 0xEF,
             0xFA, 0xFD, 0xF4, 0xF3,
         ];
-        for i in 0..256 {
-            assert_eq!(crc8(&[i as u8]), TABLE[i]);
+        for (i, expected) in TABLE.iter().enumerate() {
+            assert_eq!(crc8(&[i as u8]), *expected);
         }
     }
 
