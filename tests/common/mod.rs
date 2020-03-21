@@ -1,8 +1,8 @@
 use embedded_hal_mock::i2c::{Mock as I2cMock, Transaction as I2cTrans};
 use mlx9061x::{ic, Mlx9061x};
-pub const ADDR: u8 = 0x5A;
 
 pub mod mlx90614 {
+    pub const DEV_ADDR: u8 = 0x5A;
     pub struct Register {}
     impl Register {
         pub const RAW_IR1: u8 = 0x04;
@@ -35,6 +35,40 @@ macro_rules! assert_crc_mismatch {
         match $result {
             Err(Error::ChecksumMismatch) => (),
             _ => panic!("Would not block."),
+        }
+    };
+}
+
+#[macro_export]
+macro_rules! read_f32_test_base {
+    ($name:ident, $create:ident, $address:expr, $method:ident, $reg:expr, $data0:expr, $data1:expr, $data2:expr, $expected:expr) => {
+        #[test]
+        fn $name() {
+            let mut sensor = $create(&[I2cTrans::write_read(
+                $address,
+                vec![$reg],
+                vec![$data0, $data1, $data2],
+            )]);
+            let t = sensor.$method().unwrap();
+            assert_near!(t, $expected, 0.1);
+            destroy(sensor);
+        }
+    };
+}
+
+#[macro_export]
+macro_rules! read_u16_test {
+    ($name:ident, $create:ident, $address:expr, $method:ident, $reg:expr, $data0:expr, $data1:expr, $data2:expr, $expected:expr) => {
+        #[test]
+        fn $name() {
+            let mut sensor = $create(&[I2cTrans::write_read(
+                $address,
+                vec![$reg],
+                vec![$data0, $data1, $data2],
+            )]);
+            let t = sensor.$method().unwrap();
+            assert_eq!(t, $expected);
+            destroy(sensor);
         }
     };
 }

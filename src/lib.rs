@@ -27,13 +27,13 @@
 #![no_std]
 
 use core::marker::PhantomData;
-mod device_impl;
+mod mlx90614;
 mod types;
 pub use crate::types::{ic, Error};
-mod register_access;
-use crate::register_access::mlx90614;
 mod crc8;
+mod register_access;
 use crate::crc8::crc8;
+mod common;
 
 /// mlx9061x device driver
 #[derive(Debug)]

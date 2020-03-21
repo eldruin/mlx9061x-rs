@@ -19,7 +19,10 @@ pub fn crc8(data: &[u8]) -> u8 {
 
 #[cfg(test)]
 mod tests {
-    use crate::{crc8, mlx90614, register_access::DEV_ADDR as ADDR};
+    use crate::{
+        crc8,
+        register_access::mlx90614::{Register, DEV_ADDR as ADDR},
+    };
 
     #[test]
     fn check_crc8_table() {
@@ -51,7 +54,7 @@ mod tests {
 
     #[test]
     fn check_crc8_array() {
-        const TA: u8 = mlx90614::Register::TA;
+        const TA: u8 = Register::TA;
         assert_eq!(crc8(&[ADDR << 1, TA, (ADDR << 1) + 1, 38, 58]), 102);
         assert_eq!(crc8(&[ADDR << 1, TA, (ADDR << 1) + 1, 107, 58]), 212);
         assert_eq!(crc8(&[ADDR << 1, TA, (ADDR << 1) + 1, 97, 58]), 86);
