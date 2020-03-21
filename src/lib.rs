@@ -28,6 +28,7 @@
 
 use core::marker::PhantomData;
 mod mlx90614;
+mod mlx90615;
 mod types;
 pub use crate::types::{ic, Error};
 mod crc8;

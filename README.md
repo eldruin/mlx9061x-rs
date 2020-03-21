@@ -1,4 +1,4 @@
-# Rust MLX90614 Infrared Thermometer Driver
+# Rust MLX90614/MLX90615 Infrared Thermometer Driver
 
 <!-- TODO
 [![crates.io](https://img.shields.io/crates/v/mlx9061x.svg)](https://crates.io/crates/mlx9061x)
@@ -7,8 +7,8 @@
 [![Build Status](https://travis-ci.com/eldruin/mlx9061x-rs.svg?branch=master)](https://travis-ci.com/eldruin/mlx9061x-rs)
 [![Coverage Status](https://coveralls.io/repos/github/eldruin/mlx9061x-rs/badge.svg?branch=master)](https://coveralls.io/github/eldruin/mlx9061x-rs?branch=master)
 
-This is a platform agnostic Rust driver for the mlx9061x infrared thermometer
-using the [`embedded-hal`] traits.
+This is a platform agnostic Rust driver for the mlx9061x infrared
+thermometers using the [`embedded-hal`] traits.
 
 <!--TODO
 This driver allows you to:

@@ -1,6 +1,7 @@
 use embedded_hal_mock::i2c::{Mock as I2cMock, Transaction as I2cTrans};
 use mlx9061x::{ic, Mlx9061x};
 
+#[allow(unused)]
 pub mod mlx90614 {
     pub const DEV_ADDR: u8 = 0x5A;
     pub struct Register {}
@@ -13,8 +14,25 @@ pub mod mlx90614 {
     }
 }
 
+#[allow(unused)]
+pub mod mlx90615 {
+    pub const DEV_ADDR: u8 = 0x5B;
+    pub struct Register {}
+    impl Register {
+        pub const RAW_IR: u8 = 0x05;
+        pub const TA: u8 = 0x06;
+        pub const TOBJ: u8 = 0x07;
+    }
+}
+
+#[allow(unused)]
 pub fn new_mlx90614(transactions: &[I2cTrans]) -> Mlx9061x<I2cMock, ic::Mlx90614> {
     Mlx9061x::new_mlx90614(I2cMock::new(transactions))
+}
+
+#[allow(unused)]
+pub fn new_mlx90615(transactions: &[I2cTrans]) -> Mlx9061x<I2cMock, ic::Mlx90615> {
+    Mlx9061x::new_mlx90615(I2cMock::new(transactions))
 }
 
 pub fn destroy<IC>(sensor: Mlx9061x<I2cMock, IC>) {

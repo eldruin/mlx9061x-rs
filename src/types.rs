@@ -10,5 +10,7 @@ pub enum Error<E> {
 /// IC marker
 pub mod ic {
     /// MLX90614 IC marker
-    pub struct Mlx90614(());
+    pub struct Mlx90614;
+    /// MLX90615 IC marker
+    pub struct Mlx90615;
 }

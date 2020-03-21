@@ -13,6 +13,15 @@ pub mod mlx90614 {
     }
 }
 
+pub mod mlx90615 {
+    pub const DEV_ADDR: u8 = 0x5B;
+    pub struct Register {}
+    impl Register {
+        pub const RAW_IR: u8 = 0x05;
+        pub const TA: u8 = 0x06;
+        pub const TOBJ: u8 = 0x07;
+    }
+}
 
 macro_rules! reg_access {
     ($ic_marker:ident, $ic_reg:ident) => {
@@ -42,6 +51,7 @@ macro_rules! reg_access {
     };
 }
 reg_access!(Mlx90614, mlx90614);
+reg_access!(Mlx90615, mlx90615);
 
 impl<E, I2C, IC> Mlx9061x<I2C, IC>
 where
