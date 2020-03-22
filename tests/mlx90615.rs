@@ -68,3 +68,14 @@ fn can_set_emissivity() {
 }
 
 read_f32_test!(read_emiss, emissivity, Reg::EMISSIVITY, 205, 44, 235, 0.7);
+
+#[test]
+fn can_get_id() {
+    let mut sensor = new_mlx90615(&[I2cTrans::write_read(
+        mlx90615::DEV_ADDR,
+        vec![mlx90615::Register::ID0],
+        vec![0x34, 0x12, 6],
+    )]);
+    assert_eq!(0x1234, sensor.device_id().unwrap());
+    destroy(sensor);
+}

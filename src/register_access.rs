@@ -13,6 +13,7 @@ pub mod mlx90614 {
         pub const TOBJ2: u8 = 0x08;
         pub const EMISSIVITY: u8 = 0x04 | EEPROM_COMMAND;
         pub const ADDRESS: u8 = 0x0E | EEPROM_COMMAND;
+        pub const ID0: u8 = 0x1C | EEPROM_COMMAND;
     }
 }
 
@@ -27,6 +28,7 @@ pub mod mlx90615 {
         pub const TOBJ: u8 = 0x07 | RAM_COMMAND;
         pub const ADDRESS: u8 = 0x00 | EEPROM_COMMAND;
         pub const EMISSIVITY: u8 = 0x03 | EEPROM_COMMAND;
+        pub const ID0: u8 = 0x0E | EEPROM_COMMAND;
     }
 }
 
@@ -95,7 +97,7 @@ impl<E, I2C, IC> Mlx9061x<I2C, IC>
 where
     I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
 {
-    fn check_pec(data: &[u8], expected: u8) -> Result<(), Error<E>> {
+    pub(crate) fn check_pec(data: &[u8], expected: u8) -> Result<(), Error<E>> {
         if crc8(data) != expected {
             Err(Error::ChecksumMismatch)
         } else {
