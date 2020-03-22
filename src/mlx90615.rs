@@ -49,6 +49,12 @@ where
         self.read_u16(Register::RAW_IR)
     }
 
+    /// Get emissivity epsilon
+    pub fn emissivity(&mut self) -> Result<f32, Error<E>> {
+        let raw = self.read_u16(Register::EMISSIVITY)?;
+        Ok((raw as f32) / 16384.0)
+    }
+
     /// Set emissivity epsilon [0.0-1.0]
     ///
     /// Wrong values will return `Error::InvalidInputData`.

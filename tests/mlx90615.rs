@@ -66,3 +66,5 @@ fn can_set_emissivity() {
     sensor.set_emissivity(0.7, &mut NoopDelay {}).unwrap();
     destroy(sensor);
 }
+
+read_f32_test!(read_emiss, emissivity, Reg::EMISSIVITY, 205, 44, 235, 0.7);
