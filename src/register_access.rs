@@ -1,5 +1,5 @@
 use crate::{crc8, ic, Error, Mlx9061x, SlaveAddr};
-use embedded_hal::blocking::{delay, i2c};
+use embedded_hal::blocking::i2c;
 
 pub mod mlx90614 {
     const EEPROM_COMMAND: u8 = 0x20;
@@ -30,10 +30,9 @@ pub mod mlx90615 {
 
 macro_rules! reg_access {
     ($ic_marker:ident, $ic_reg:ident) => {
-        impl<E, D, I2C> Mlx9061x<I2C, D, ic::$ic_marker>
+        impl<E, I2C> Mlx9061x<I2C, ic::$ic_marker>
         where
             I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
-            D: delay::DelayMs<u8>,
         {
             pub(crate) fn read_u16(&mut self, register: u8) -> Result<u16, Error<E>> {
                 let mut data = [0; 3];
@@ -54,13 +53,9 @@ macro_rules! reg_access {
                 Ok(u16::from(data[0]) | (u16::from(data[1]) << 8))
             }
 
-            pub(crate) fn write_u16(
-                &mut self,
-                command: u8,
-                data: u16,
-            ) -> Result<(), Error<E>> {
+            pub(crate) fn write_u16(&mut self, command: u8, data: u16) -> Result<(), Error<E>> {
                 let low = data as u8;
-                let high = (data>> 8) as u8; 
+                let high = (data >> 8) as u8;
                 let pec = crc8(&[self.address << 1, command, low, high]);
                 self.i2c
                     .write(self.address, &[command, low, high, pec])
@@ -81,10 +76,9 @@ macro_rules! reg_access {
 reg_access!(Mlx90614, mlx90614);
 reg_access!(Mlx90615, mlx90615);
 
-impl<E, I2C, D, IC> Mlx9061x<I2C, D, IC>
+impl<E, I2C, IC> Mlx9061x<I2C, IC>
 where
     I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
-    D: delay::DelayMs<u8>,
 {
     fn check_pec(data: &[u8], expected: u8) -> Result<(), Error<E>> {
         if crc8(data) != expected {

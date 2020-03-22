@@ -38,11 +38,10 @@ mod common;
 
 /// mlx9061x device driver
 #[derive(Debug)]
-pub struct Mlx9061x<I2C, D, IC> {
+pub struct Mlx9061x<I2C, IC> {
     /// The concrete I²C device implementation.
     i2c: I2C,
     eeprom_write_delay_ms: u8,
-    delay_ms: D,
     address: u8,
     _ic: PhantomData<IC>,
 }
