@@ -20,11 +20,12 @@ pub mod mlx90614 {
 #[allow(unused)]
 pub mod mlx90615 {
     pub const DEV_ADDR: u8 = 0x5B;
+    const RAM_COMMAND: u8 = 0x20;
     pub struct Register {}
     impl Register {
-        pub const RAW_IR: u8 = 0x05;
-        pub const TA: u8 = 0x06;
-        pub const TOBJ: u8 = 0x07;
+        pub const RAW_IR: u8 = 0x05 | RAM_COMMAND;
+        pub const TA: u8 = 0x06 | RAM_COMMAND;
+        pub const TOBJ: u8 = 0x07 | RAM_COMMAND;
     }
 }
 

@@ -24,10 +24,10 @@ macro_rules! read_f32_test {
         );
     };
 }
-read_f32_test!(read_ta1, ambient_temperature, Reg::TA, 225, 57, 251, 23.19);
-read_f32_test!(read_ta2, ambient_temperature, Reg::TA, 97, 58, 68, 25.75);
-read_f32_test!(read_ta3, ambient_temperature, Reg::TA, 107, 58, 198, 25.95);
-read_f32_test!(read_ta4, ambient_temperature, Reg::TA, 38, 58, 116, 24.57);
+read_f32_test!(read_ta1, ambient_temperature, Reg::TA, 225, 57, 53, 23.19);
+read_f32_test!(read_ta2, ambient_temperature, Reg::TA, 97, 58, 138, 25.75);
+read_f32_test!(read_ta3, ambient_temperature, Reg::TA, 107, 58, 8, 25.95);
+read_f32_test!(read_ta4, ambient_temperature, Reg::TA, 38, 58, 186, 24.57);
 
 read_f32_test!(
     read_object_temp,
@@ -35,7 +35,7 @@ read_f32_test!(
     Reg::TOBJ,
     38,
     58,
-    98,
+    172,
     24.57
 );
 
@@ -44,7 +44,7 @@ fn read_ambient_temperature_crc_mismatch() {
     let mut sensor = new_mlx90615(&[I2cTrans::write_read(
         mlx90615::DEV_ADDR,
         vec![Reg::TA],
-        vec![225, 57, 234],
+        vec![225, 57, 54],
     )]);
     assert_crc_mismatch!(sensor.ambient_temperature());
     destroy(sensor);
@@ -58,6 +58,6 @@ read_u16_test!(
     Reg::RAW_IR,
     0x26,
     0x3A,
-    0x4E,
+    0x80,
     0x3A26
 );
