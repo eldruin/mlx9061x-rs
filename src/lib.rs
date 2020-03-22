@@ -43,10 +43,3 @@ pub struct Mlx9061x<I2C, IC> {
     i2c: I2C,
     _ic: PhantomData<IC>,
 }
-
-mod private {
-    use super::ic;
-    pub trait Sealed {}
-
-    impl Sealed for ic::Mlx90614 {}
-}
