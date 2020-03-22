@@ -51,9 +51,16 @@ macro_rules! assert_near {
 #[macro_export]
 macro_rules! assert_crc_mismatch {
     ($result: expr) => {
+        assert_error!($result, ChecksumMismatch);
+    };
+}
+
+#[macro_export]
+macro_rules! assert_error {
+    ($result: expr, $error:ident) => {
         match $result {
-            Err(Error::ChecksumMismatch) => (),
-            _ => panic!("Should have returned ChecksumMismatch."),
+            Err(Error::$error) => (),
+            _ => panic!("Should have returned error."),
         }
     };
 }

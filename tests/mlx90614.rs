@@ -1,12 +1,24 @@
 mod common;
 use crate::common::{destroy, mlx90614, mlx90614::Register as Reg, new_mlx90614};
-use embedded_hal_mock::i2c::Transaction as I2cTrans;
-use mlx9061x::Error;
+use embedded_hal_mock::i2c::{Mock as I2cMock, Transaction as I2cTrans};
+use mlx9061x::{Error, Mlx9061x, SlaveAddr};
 
 #[test]
 fn can_create_and_destroy() {
     let sensor = new_mlx90614(&[]);
     destroy(sensor);
+}
+
+#[test]
+fn wrong_address_raises_error() {
+    assert_error!(
+        Mlx9061x::new_mlx90614(I2cMock::new(&[]), SlaveAddr::Alternative(0), 5),
+        InvalidInputData
+    );
+    assert_error!(
+        Mlx9061x::new_mlx90614(I2cMock::new(&[]), SlaveAddr::Alternative(128), 5),
+        InvalidInputData
+    );
 }
 
 macro_rules! read_f32_test {
