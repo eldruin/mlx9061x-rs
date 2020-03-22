@@ -29,11 +29,7 @@ macro_rules! common {
                 delay_ms: &mut D,
             ) -> Result<(), Error<E>> {
                 let address = Self::get_address(address)?;
-                self.write_u16($ic_reg::Register::ADDRESS, 0)?;
-                delay_ms.delay_ms(self.eeprom_write_delay_ms);
-                self.write_u16($ic_reg::Register::ADDRESS, u16::from(address))?;
-                delay_ms.delay_ms(self.eeprom_write_delay_ms);
-                Ok(())
+                self.write_u16_eeprom($ic_reg::Register::ADDRESS, u16::from(address), delay_ms)
             }
         }
     };

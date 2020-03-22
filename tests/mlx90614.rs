@@ -78,3 +78,13 @@ fn can_change_address() {
         .unwrap();
     destroy(sensor);
 }
+
+#[test]
+fn can_set_emissivity() {
+    let mut sensor = new_mlx90614(&[
+        I2cTrans::write(mlx90614::DEV_ADDR, vec![Reg::EMISSIVITY, 0, 0, 40]),
+        I2cTrans::write(mlx90614::DEV_ADDR, vec![Reg::EMISSIVITY, 51, 179, 254]),
+    ]);
+    sensor.set_emissivity(0.7, &mut NoopDelay {}).unwrap();
+    destroy(sensor);
+}

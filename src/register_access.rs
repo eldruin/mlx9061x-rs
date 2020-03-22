@@ -1,5 +1,5 @@
 use crate::{crc8, ic, Error, Mlx9061x, SlaveAddr};
-use embedded_hal::blocking::i2c;
+use embedded_hal::blocking::{delay, i2c};
 
 pub mod mlx90614 {
     const EEPROM_COMMAND: u8 = 0x20;
@@ -11,6 +11,7 @@ pub mod mlx90614 {
         pub const TA: u8 = 0x06;
         pub const TOBJ1: u8 = 0x07;
         pub const TOBJ2: u8 = 0x08;
+        pub const EMISSIVITY: u8 = 0x04 | EEPROM_COMMAND;
         pub const ADDRESS: u8 = 0x0E | EEPROM_COMMAND;
     }
 }
@@ -25,6 +26,7 @@ pub mod mlx90615 {
         pub const TA: u8 = 0x06 | RAM_COMMAND;
         pub const TOBJ: u8 = 0x07 | RAM_COMMAND;
         pub const ADDRESS: u8 = 0x00 | EEPROM_COMMAND;
+        pub const EMISSIVITY: u8 = 0x03 | EEPROM_COMMAND;
     }
 }
 
@@ -60,6 +62,19 @@ macro_rules! reg_access {
                 self.i2c
                     .write(self.address, &[command, low, high, pec])
                     .map_err(Error::I2C)
+            }
+
+            pub(crate) fn write_u16_eeprom<D: delay::DelayMs<u8>>(
+                &mut self,
+                command: u8,
+                data: u16,
+                delay: &mut D,
+            ) -> Result<(), Error<E>> {
+                self.write_u16(command, 0)?;
+                delay.delay_ms(self.eeprom_write_delay_ms);
+                self.write_u16(command, data)?;
+                delay.delay_ms(self.eeprom_write_delay_ms);
+                Ok(())
             }
 
             pub(crate) fn get_address(address: SlaveAddr) -> Result<u8, Error<E>> {

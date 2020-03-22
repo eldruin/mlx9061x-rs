@@ -46,6 +46,26 @@ macro_rules! tests {
             );
             destroy(sensor);
         }
+
+        #[test]
+        fn set_wrong_too_small_emissivity_returns_error() {
+            let mut sensor = $create(&[]);
+            assert_error!(
+                sensor.set_emissivity(-0.1, &mut NoopDelay {}),
+                InvalidInputData
+            );
+            destroy(sensor);
+        }
+
+        #[test]
+        fn set_wrong_too_big_emissivity_returns_error() {
+            let mut sensor = $create(&[]);
+            assert_error!(
+                sensor.set_emissivity(1.1, &mut NoopDelay {}),
+                InvalidInputData
+            );
+            destroy(sensor);
+        }
     };
 }
 

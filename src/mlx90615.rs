@@ -1,6 +1,6 @@
 use crate::{ic, register_access::mlx90615::Register, Error, Mlx9061x, SlaveAddr};
 use core::marker::PhantomData;
-use embedded_hal::blocking::i2c;
+use embedded_hal::blocking::{delay::DelayMs, i2c};
 
 impl<E, I2C> Mlx9061x<I2C, ic::Mlx90615>
 where
@@ -47,5 +47,20 @@ where
     /// Read the raw IR data
     pub fn raw_ir(&mut self) -> Result<u16, Error<E>> {
         self.read_u16(Register::RAW_IR)
+    }
+
+    /// Set emissivity epsilon [0.0-1.0]
+    ///
+    /// Wrong values will return `Error::InvalidInputData`.
+    pub fn set_emissivity<D: DelayMs<u8>>(
+        &mut self,
+        epsilon: f32,
+        delay: &mut D,
+    ) -> Result<(), Error<E>> {
+        if epsilon < 0.0 || epsilon > 1.0 {
+            return Err(Error::InvalidInputData);
+        }
+        let eps = (epsilon * 16384.0 + 0.5) as u16;
+        self.write_u16_eeprom(Register::EMISSIVITY, eps as u16, delay)
     }
 }
