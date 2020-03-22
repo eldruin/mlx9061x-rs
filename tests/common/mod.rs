@@ -1,5 +1,8 @@
-use embedded_hal_mock::i2c::{Mock as I2cMock, Transaction as I2cTrans};
-use mlx9061x::{ic, Mlx9061x};
+use embedded_hal_mock::{
+    delay::MockNoop as NoopDelay,
+    i2c::{Mock as I2cMock, Transaction as I2cTrans},
+};
+use mlx9061x::{ic, Mlx9061x, SlaveAddr};
 
 #[allow(unused)]
 pub mod mlx90614 {
@@ -26,17 +29,29 @@ pub mod mlx90615 {
 }
 
 #[allow(unused)]
-pub fn new_mlx90614(transactions: &[I2cTrans]) -> Mlx9061x<I2cMock, ic::Mlx90614> {
-    Mlx9061x::new_mlx90614(I2cMock::new(transactions))
+pub fn new_mlx90614(transactions: &[I2cTrans]) -> Mlx9061x<I2cMock, NoopDelay, ic::Mlx90614> {
+    Mlx9061x::new_mlx90614(
+        I2cMock::new(transactions),
+        SlaveAddr::default(),
+        NoopDelay {},
+        5,
+    )
+    .unwrap()
 }
 
 #[allow(unused)]
-pub fn new_mlx90615(transactions: &[I2cTrans]) -> Mlx9061x<I2cMock, ic::Mlx90615> {
-    Mlx9061x::new_mlx90615(I2cMock::new(transactions))
+pub fn new_mlx90615(transactions: &[I2cTrans]) -> Mlx9061x<I2cMock, NoopDelay, ic::Mlx90615> {
+    Mlx9061x::new_mlx90615(
+        I2cMock::new(transactions),
+        SlaveAddr::default(),
+        NoopDelay {},
+        5,
+    )
+    .unwrap()
 }
 
-pub fn destroy<IC>(sensor: Mlx9061x<I2cMock, IC>) {
-    sensor.destroy().done();
+pub fn destroy<D, IC>(sensor: Mlx9061x<I2cMock, D, IC>) {
+    sensor.destroy().0.done();
 }
 
 #[macro_export]

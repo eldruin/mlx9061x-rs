@@ -30,7 +30,7 @@ use core::marker::PhantomData;
 mod mlx90614;
 mod mlx90615;
 mod types;
-pub use crate::types::{ic, Error};
+pub use crate::types::{ic, Error, SlaveAddr};
 mod crc8;
 mod register_access;
 use crate::crc8::crc8;
@@ -38,8 +38,11 @@ mod common;
 
 /// mlx9061x device driver
 #[derive(Debug)]
-pub struct Mlx9061x<I2C, IC> {
+pub struct Mlx9061x<I2C, D, IC> {
     /// The concrete I²C device implementation.
     i2c: I2C,
+    eeprom_write_delay_ms: u8,
+    delay_ms: D,
+    address: u8,
     _ic: PhantomData<IC>,
 }

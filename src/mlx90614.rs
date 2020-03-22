@@ -1,23 +1,39 @@
 //! MLX90614-specific functions
 
-use crate::{ic, register_access::mlx90614::Register, Error, Mlx9061x};
+use crate::{
+    ic,
+    register_access::mlx90614::{Register},
+    Error, Mlx9061x, SlaveAddr,
+};
 use core::marker::PhantomData;
-use embedded_hal::blocking::i2c;
+use embedded_hal::blocking::{delay, i2c};
 
-impl<I2C> Mlx9061x<I2C, ic::Mlx90614> {
-    /// Create new instance of the MLX90614 device.
-    pub fn new_mlx90614(i2c: I2C) -> Self {
-        Mlx9061x {
-            i2c,
-            _ic: PhantomData,
-        }
-    }
-}
-
-impl<E, I2C> Mlx9061x<I2C, ic::Mlx90614>
+impl<E, D, I2C> Mlx9061x<I2C, D, ic::Mlx90614>
 where
-    I2C: i2c::WriteRead<Error = E>,
+    I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
+    D: delay::DelayMs<u8>,
 {
+    /// Create new instance of the MLX90614 device.
+    ///
+    /// The slave address must match the address stored in the device EEPROM.
+    /// To change it you need to connect first and then change it with `set_address()`.
+    /// An invalid alternative slave address will return `Error::InvalidInputData`.
+    pub fn new_mlx90614(
+        i2c: I2C,
+        address: SlaveAddr,
+        delay_ms: D,
+        eeprom_write_delay_ms: u8,
+    ) -> Result<Self, Error<E>> {
+        let address = Self::get_address(address)?;
+        Ok(Mlx9061x {
+            i2c,
+            eeprom_write_delay_ms,
+            delay_ms,
+            address,
+            _ic: PhantomData,
+        })
+    }
+
     /// Read the ambient temperature in celsius degrees
     pub fn ambient_temperature(&mut self) -> Result<f32, Error<E>> {
         let t = self.read_u16(Register::TA)?;
