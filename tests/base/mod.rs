@@ -3,6 +3,7 @@ use mlx9061x::{ic, Mlx9061x, SlaveAddr};
 
 #[allow(unused)]
 pub mod mlx90614 {
+    const EEPROM_COMMAND: u8 = 0x20;
     pub const DEV_ADDR: u8 = 0x5A;
     pub struct Register {}
     impl Register {
@@ -11,18 +12,21 @@ pub mod mlx90614 {
         pub const TA: u8 = 0x06;
         pub const TOBJ1: u8 = 0x07;
         pub const TOBJ2: u8 = 0x08;
+        pub const ADDRESS: u8 = 0x0E | EEPROM_COMMAND;
     }
 }
 
 #[allow(unused)]
 pub mod mlx90615 {
-    pub const DEV_ADDR: u8 = 0x5B;
+    const EEPROM_COMMAND: u8 = 0x10;
     const RAM_COMMAND: u8 = 0x20;
+    pub const DEV_ADDR: u8 = 0x5B;
     pub struct Register {}
     impl Register {
         pub const RAW_IR: u8 = 0x05 | RAM_COMMAND;
         pub const TA: u8 = 0x06 | RAM_COMMAND;
         pub const TOBJ: u8 = 0x07 | RAM_COMMAND;
+        pub const ADDRESS: u8 = 0x00 | EEPROM_COMMAND;
     }
 }
 
