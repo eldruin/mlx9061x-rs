@@ -28,7 +28,7 @@ pub mod mlx90615 {
         pub const RAW_IR: u8 = 0x05 | RAM_COMMAND;
         pub const TA: u8 = 0x06 | RAM_COMMAND;
         pub const TOBJ: u8 = 0x07 | RAM_COMMAND;
-        pub const ADDRESS: u8 = 0x00 | EEPROM_COMMAND;
+        pub const ADDRESS: u8 = /*0x00 |*/ EEPROM_COMMAND;
         pub const EMISSIVITY: u8 = 0x03 | EEPROM_COMMAND;
         pub const ID0: u8 = 0x0E | EEPROM_COMMAND;
     }
