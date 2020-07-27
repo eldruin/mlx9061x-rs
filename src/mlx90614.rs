@@ -86,26 +86,12 @@ where
 
     /// Get the device ID
     pub fn device_id(&mut self) -> Result<u64, Error<E>> {
-        let mut data = [0; 5];
-        self.i2c
-            .write_read(self.address, &[Register::ID0], &mut data)
-            .map_err(Error::I2C)?;
-        let pec = data[4];
-        Self::check_pec(
-            &[
-                self.address << 1,
-                Register::ID0,
-                (self.address << 1) + 1,
-                data[0],
-                data[1],
-                data[2],
-                data[3],
-            ],
-            pec,
-        )?;
-        Ok(u64::from(data[0])
-            | (u64::from(data[1]) << 8)
-            | (u64::from(data[2]) << 16)
-            | (u64::from(data[3]) << 24))
+        let mut id = 0;
+        for i in 0..4 {
+            let part = self.read_u16(Register::ID0 + i)?;
+            let part = u64::from(part) << (16 * (3 - i));
+            id |= part;
+        }
+        Ok(id)
     }
 }

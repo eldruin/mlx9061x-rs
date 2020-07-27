@@ -93,11 +93,28 @@ read_f32_test!(read_emiss, emissivity, Reg::EMISSIVITY, 51, 179, 36, 0.7);
 
 #[test]
 fn can_get_id() {
-    let mut sensor = new_mlx90614(&[I2cTrans::write_read(
-        mlx90614::DEV_ADDR,
-        vec![mlx90614::Register::ID0],
-        vec![0x78, 0x56, 0x34, 0x12, 231],
-    )]);
-    assert_eq!(0x1234_5678, sensor.device_id().unwrap());
+    let mut sensor = new_mlx90614(&[
+        I2cTrans::write_read(
+            mlx90614::DEV_ADDR,
+            vec![mlx90614::Register::ID0],
+            vec![0x34, 0x12, 246],
+        ),
+        I2cTrans::write_read(
+            mlx90614::DEV_ADDR,
+            vec![mlx90614::Register::ID0 + 1],
+            vec![0x78, 0x56, 156],
+        ),
+        I2cTrans::write_read(
+            mlx90614::DEV_ADDR,
+            vec![mlx90614::Register::ID0 + 2],
+            vec![0xBC, 0x9A, 117],
+        ),
+        I2cTrans::write_read(
+            mlx90614::DEV_ADDR,
+            vec![mlx90614::Register::ID0 + 3],
+            vec![0xF0, 0xDE, 31],
+        ),
+    ]);
+    assert_eq!(0x1234_5678_9ABC_DEF0, sensor.device_id().unwrap());
     destroy(sensor);
 }

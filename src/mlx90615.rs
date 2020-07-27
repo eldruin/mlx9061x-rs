@@ -71,7 +71,9 @@ where
     }
 
     /// Get the device ID
-    pub fn device_id(&mut self) -> Result<u16, Error<E>> {
-        self.read_u16(Register::ID0)
+    pub fn device_id(&mut self) -> Result<u32, Error<E>> {
+        let id0 = self.read_u16(Register::ID0)?;
+        let id1 = self.read_u16(Register::ID0 + 1)?;
+        Ok((u32::from(id0) << 16) | u32::from(id1))
     }
 }
