@@ -17,6 +17,10 @@ where
     /// The slave address must match the address stored in the device EEPROM.
     /// To change it you need to connect first and then change it with `set_address()`.
     /// An invalid alternative slave address will return `Error::InvalidInputData`.
+    ///
+    /// When writing to the EEPROM waiting a certain amount of time is necessary.
+    /// This delay is configured through the `eeprom_write_delay_ms` parameter
+    /// in milliseconds.
     pub fn new_mlx90614(
         i2c: I2C,
         address: SlaveAddr,
