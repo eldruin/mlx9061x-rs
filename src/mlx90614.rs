@@ -51,7 +51,7 @@ where
 
     /// Read the object 2 temperature in celsius degrees
     ///
-    /// Note that this is only available in dual-zone device variants.
+    /// Note that this is only available in dual-zone thermopile device variants.
     pub fn object2_temperature(&mut self) -> Result<f32, Error<E>> {
         let t = self.read_u16(Register::TOBJ2)?;
         let t = f32::from(t) * 0.02 - 273.15;
