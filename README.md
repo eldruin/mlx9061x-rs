@@ -38,19 +38,29 @@ Documentation:
 - Datasheets: [MLX90614](https://www.melexis.com/-/media/files/documents/datasheets/mlx90614-datasheet-melexis.pdf), [MLX90615](https://www.melexis.com/-/media/files/documents/datasheets/mlx90615-datasheet-melexis.pdf)
 - [SMBus communication with MLX90614](https://www.melexis.com/-/media/files/documents/application-notes/mlx90614-smbus-communication-application-note-melexis.pdf)
 
-<!--TODO
 ## Usage
 
 To use this driver, import this crate and an `embedded_hal` implementation,
-then instantiate the device.
+then instantiate the appropriate device.
 
 Please find additional examples using hardware in this repository: [driver-examples]
 
 [driver-examples]: https://github.com/eldruin/driver-examples
 
 ```rust
+use linux_embedded_hal::I2cdev;
+use mlx9061x::{Mlx9061x, SlaveAddr};
+
+fn main() {
+    let dev = I2cdev::new("/dev/i2c-1").unwrap();
+    let addr = SlaveAddr::default();
+    let mut sensor = Mlx9061x::new_mlx90614(dev, addr, 5).unwrap();
+    loop {
+        let obj_temp = sensor.object1_temperature().unwrap();
+        println!("Object temperature: {:.2}ºC", obj_temp);
+    }
+}
 ```
--->
 
 ## Support
 
