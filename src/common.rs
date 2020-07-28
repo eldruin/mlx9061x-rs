@@ -21,7 +21,7 @@ macro_rules! common {
             /// Change the device address
             ///
             /// The address will be stored in the EEPROM.
-            /// The address will be first cleared, before the address is written.
+            /// The address will be first cleared, before the new one is written.
             /// After each write the configured delay will be waited.
             pub fn set_address<D: delay::DelayMs<u8>>(
                 &mut self,
