@@ -1,4 +1,4 @@
-# Rust MLX90614/MLX90615 Infrared Thermometer Driver
+# Rust MLX90614/MLX90615 Non-contact Infrared Thermometer Driver
 
 <!-- TODO
 [![crates.io](https://img.shields.io/crates/v/mlx9061x.svg)](https://crates.io/crates/mlx9061x)
@@ -7,25 +7,35 @@
 [![Build Status](https://travis-ci.com/eldruin/mlx9061x-rs.svg?branch=master)](https://travis-ci.com/eldruin/mlx9061x-rs)
 [![Coverage Status](https://coveralls.io/repos/github/eldruin/mlx9061x-rs/badge.svg?branch=master)](https://coveralls.io/github/eldruin/mlx9061x-rs?branch=master)
 
-This is a platform agnostic Rust driver for the mlx9061x infrared
+This is a platform agnostic Rust driver for the MLX90614/MLX90615 infrared
 thermometers using the [`embedded-hal`] traits.
 
-<!--TODO
 This driver allows you to:
--->
+- Read the last object temperature measurement. See: `object1_temperature()`.
+- Read the last ambient temperature measurement. See: `ambient_temperature()`.
+- Read the last raw IR measurement. See: `raw_ir_channel1()`.
+- Get/Set the emissivity. See: `set_emissivity()`.
+- Get the device ID. See: `device_id()`.
+- Set the device address. See: `set_address()`.
+
 <!-- TODO
 [Introductory blog post]()
 -->
 
-The MLX90614 is an infrared thermometer for non-contact temperature
+The MLX90614/MLX90615 are a infrared thermometers for non-contact temperature
 measurements. Both the IR sensitive thermopile detector chip and the
-signal conditioning ASSP are integrated in the same TO-39 can.
-Thanks to its low noise amplifier, 17-bit ADC and powerful DSP unit,
+signal conditioning ASSP are integrated in the same TO-39/TO-46 can.
+Thanks to its low noise amplifier, 17-bit/16-bit ADC and powerful DSP unit,
 a high accuracy and resolution of the thermometer is achieved.
-
+ 
+The chips feature an 10-bit PWM and SMBus interface.
+ 
+The readout resolution is 0.14°C (MLX90614) / 0.02°C (MLX90615).
+ 
+This driver uses the SMBus interface.
 
 Documentation:
-- [Datasheet](https://www.melexis.com/-/media/files/documents/datasheets/mlx90614-datasheet-melexis.pdf)
+- Datasheets: [MLX90614](https://www.melexis.com/-/media/files/documents/datasheets/mlx90614-datasheet-melexis.pdf), [MLX90615](https://www.melexis.com/-/media/files/documents/datasheets/mlx90615-datasheet-melexis.pdf)
 - [SMBus communication with MLX90614](https://www.melexis.com/-/media/files/documents/application-notes/mlx90614-smbus-communication-application-note-melexis.pdf)
 
 <!--TODO
