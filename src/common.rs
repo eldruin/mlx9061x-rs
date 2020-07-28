@@ -28,7 +28,7 @@ macro_rules! common {
                 address: SlaveAddr,
                 delay_ms: &mut D,
             ) -> Result<(), Error<E>> {
-                let address = Self::get_address(address)?;
+                let address = Self::get_address(address, $ic_reg::DEV_ADDR)?;
                 self.write_u16_eeprom($ic_reg::Register::ADDRESS, u16::from(address), delay_ms)?;
                 self.address = address;
                 Ok(())

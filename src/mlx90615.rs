@@ -1,4 +1,8 @@
-use crate::{ic, register_access::mlx90615::Register, Error, Mlx9061x, SlaveAddr};
+use crate::{
+    ic,
+    register_access::mlx90615::{Register, DEV_ADDR},
+    Error, Mlx9061x, SlaveAddr,
+};
 use core::marker::PhantomData;
 use embedded_hal::blocking::{delay::DelayMs, i2c};
 
@@ -16,7 +20,7 @@ where
         address: SlaveAddr,
         eeprom_write_delay_ms: u8,
     ) -> Result<Self, Error<E>> {
-        let address = Self::get_address(address)?;
+        let address = Self::get_address(address, DEV_ADDR)?;
         Ok(Mlx9061x {
             i2c,
             eeprom_write_delay_ms,
