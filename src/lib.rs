@@ -42,6 +42,85 @@
 //! - Datasheets: [MLX90614](https://www.melexis.com/-/media/files/documents/datasheets/mlx90614-datasheet-melexis.pdf), [MLX90615](https://www.melexis.com/-/media/files/documents/datasheets/mlx90615-datasheet-melexis.pdf)
 //! - [SMBus communication with MLX90614](https://www.melexis.com/-/media/files/documents/application-notes/mlx90614-smbus-communication-application-note-melexis.pdf)
 //!
+//! ## Usage examples (see also examples folder)
+//!
+//! To use this driver, import this crate and an `embedded_hal` implementation,
+//! then instantiate the device.
+//!
+//! Please find additional examples using hardware in this repository: [driver-examples]
+//!
+//! [driver-examples]: https://github.com/eldruin/driver-examples
+//!
+//! ### Read the object 1 temperature with an MLX90614
+//!
+//! Some models feature single-zone or dual-zone thermopiles.
+//!
+//! ```no_run
+//! use linux_embedded_hal::I2cdev;
+//! use mlx9061x::{Mlx9061x, SlaveAddr};
+//!
+//! let dev = I2cdev::new("/dev/i2c-1").unwrap();
+//! let addr = SlaveAddr::default();
+//! let mut sensor = Mlx9061x::new_mlx90614(dev, addr, 5).unwrap();
+//! let obj_temp = sensor.object1_temperature().unwrap_or(-1.0);
+//! println!("Object temperature: {:.2}ºC", obj_temp);
+//! ```
+//!
+//! ### Read the ambient temperature with an MLX90615
+//!
+//! ```no_run
+//! # use linux_embedded_hal::I2cdev;
+//! # use mlx9061x::{Mlx9061x, SlaveAddr};
+//! #
+//! # let dev = I2cdev::new("/dev/i2c-1").unwrap();
+//! let addr = SlaveAddr::default();
+//! let mut sensor = Mlx9061x::new_mlx90615(dev, addr, 5).unwrap();
+//! let temp = sensor.ambient_temperature().unwrap_or(-1.0);
+//! println!("Ambient temperature: {:.2}ºC", temp);
+//! ```
+//!
+//! ### Get the device ID of an MLX90614
+//!
+//! ```no_run
+//! # use linux_embedded_hal::I2cdev;
+//! # use mlx9061x::{Mlx9061x, SlaveAddr};
+//! #
+//! # let dev = I2cdev::new("/dev/i2c-1").unwrap();
+//! # let addr = SlaveAddr::default();
+//! let mut sensor = Mlx9061x::new_mlx90614(dev, addr, 5).unwrap();
+//! let id = sensor.device_id().unwrap_or(0);
+//! println!("ID: 0x{:x?}", id);
+//! ```
+//!
+//! ### Set the emissivity
+//!
+//! This change will be permanently stored in the device EEPROM.
+//!
+//! ```no_run
+//! use linux_embedded_hal::{I2cdev, Delay};
+//! use mlx9061x::{Mlx9061x, SlaveAddr};
+//!
+//! let dev = I2cdev::new("/dev/i2c-1").unwrap();
+//! let addr = SlaveAddr::default();
+//! let mut sensor = Mlx9061x::new_mlx90614(dev, addr, 5).unwrap();
+//! let mut delay = Delay{};
+//! sensor.set_emissivity(0.8, &mut delay).unwrap();
+//! ```
+//!
+//! ### Change the device address
+//!
+//! This change will be permanently stored in the device EEPROM.
+//!
+//! ```no_run
+//! use linux_embedded_hal::{I2cdev, Delay};
+//! use mlx9061x::{Mlx9061x, SlaveAddr};
+//!
+//! let dev = I2cdev::new("/dev/i2c-1").unwrap();
+//! let addr = SlaveAddr::default();
+//! let mut sensor = Mlx9061x::new_mlx90614(dev, addr, 5).unwrap();
+//! let mut delay = Delay{};
+//! sensor.set_address(SlaveAddr::Alternative(0x5C), &mut delay).unwrap();
+//! ```
 
 #![deny(unsafe_code, missing_docs)]
 #![no_std]
