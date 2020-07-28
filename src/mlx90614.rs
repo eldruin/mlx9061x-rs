@@ -71,7 +71,7 @@ where
     /// Get emissivity epsilon
     pub fn emissivity(&mut self) -> Result<f32, Error<E>> {
         let raw = self.read_u16(Register::EMISSIVITY)?;
-        Ok((raw as f32) / 65535.0)
+        Ok(f32::from(raw) / 65535.0)
     }
 
     /// Set emissivity epsilon [0.1-1.0]

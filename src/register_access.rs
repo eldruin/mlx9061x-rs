@@ -88,8 +88,8 @@ where
     pub(crate) fn get_address(address: SlaveAddr, default: u8) -> Result<u8, Error<E>> {
         match address {
             SlaveAddr::Default => Ok(default),
-            SlaveAddr::Alternative(a) if a == 0 => return Err(Error::InvalidInputData),
-            SlaveAddr::Alternative(a) if a > 127 => return Err(Error::InvalidInputData),
+            SlaveAddr::Alternative(a) if a == 0 => Err(Error::InvalidInputData),
+            SlaveAddr::Alternative(a) if a > 127 => Err(Error::InvalidInputData),
             SlaveAddr::Alternative(a) => Ok(a),
         }
     }
