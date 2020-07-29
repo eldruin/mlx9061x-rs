@@ -1,10 +1,10 @@
 [package]
 name = "mlx9061x"
-version = "0.1.0"
+version = "0.1.0" # remember to update html_root_url
 authors = ["Diego Barrios Romero <eldruin@gmail.com>"]
 repository = "https://github.com/eldruin/mlx9061x-rs"
 license = "MIT OR Apache-2.0"
-description = "Platform-agnostic Rust driver for the mlx9061x infrared thermometers. Compatible with MLX90614."
+description = "Platform-agnostic Rust driver for the MLX90614 and MLX90615 non-contact infrared thermometers."
 readme = "README.md"
 keywords = ["infrared", "thermometer", "temperature", "sensor", "embedded-hal-driver"]
 categories = ["embedded", "hardware-support", "no-std"]
