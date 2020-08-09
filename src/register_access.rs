@@ -1,5 +1,6 @@
-use crate::{crc8, Error, Mlx9061x, SlaveAddr};
+use crate::{Error, Mlx9061x, SlaveAddr};
 use embedded_hal::blocking::{delay, i2c};
+use smbus_pec::pec;
 
 pub mod mlx90614 {
     const EEPROM_COMMAND: u8 = 0x20;
@@ -58,7 +59,7 @@ where
     pub(crate) fn write_u16(&mut self, command: u8, data: u16) -> Result<(), Error<E>> {
         let low = data as u8;
         let high = (data >> 8) as u8;
-        let pec = crc8(&[self.address << 1, command, low, high]);
+        let pec = pec(&[self.address << 1, command, low, high]);
         self.i2c
             .write(self.address, &[command, low, high, pec])
             .map_err(Error::I2C)
@@ -78,7 +79,7 @@ where
     }
 
     pub(crate) fn check_pec(data: &[u8], expected: u8) -> Result<(), Error<E>> {
-        if crc8(data) != expected {
+        if pec(data) != expected {
             Err(Error::ChecksumMismatch)
         } else {
             Ok(())

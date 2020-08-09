@@ -131,10 +131,8 @@ mod mlx90614;
 mod mlx90615;
 mod types;
 pub use crate::types::{ic, Error, SlaveAddr};
-mod crc8;
-mod register_access;
-use crate::crc8::crc8;
 mod common;
+mod register_access;
 
 /// MLX90614/MLX90615 device driver
 #[derive(Debug)]
