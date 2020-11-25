@@ -2,7 +2,7 @@
 
 [![crates.io](https://img.shields.io/crates/v/mlx9061x.svg)](https://crates.io/crates/mlx9061x)
 [![Docs](https://docs.rs/mlx9061x/badge.svg)](https://docs.rs/mlx9061x)
-[![Build Status](https://travis-ci.com/eldruin/mlx9061x-rs.svg?branch=master)](https://travis-ci.com/eldruin/mlx9061x-rs)
+[![Build Status](https://github.com/eldruin/mlx9061x-rs/workflows/Build/badge.svg)](https://github.com/eldruin/mlx9061x-rs/actions?query=workflow%3ABuild)
 [![Coverage Status](https://coveralls.io/repos/github/eldruin/mlx9061x-rs/badge.svg?branch=master)](https://coveralls.io/github/eldruin/mlx9061x-rs?branch=master)
 
 This is a platform agnostic Rust driver for the MLX90614/MLX90615 infrared
