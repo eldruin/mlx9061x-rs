@@ -1,4 +1,4 @@
-on: 
+on:
   push:
   pull_request:
   schedule:
@@ -74,7 +74,7 @@ jobs:
           toolchain: ${{ matrix.rust }}
           target: ${{ matrix.TARGET }}
           override: true
-          components: clippy, rustfmt
+          components: rustfmt
 
       - name: Doc
         uses: actions-rs/cargo@v1
@@ -88,7 +88,7 @@ jobs:
           args: --all -- --check
 
   clippy:
-    name: Checks
+    name: Clippy
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -104,18 +104,19 @@ jobs:
           toolchain: ${{ matrix.rust }}
           target: ${{ matrix.TARGET }}
           override: true
-          components: clippy, rustfmt
+          components: clippy
+
       - name: Clippy
         uses: actions-rs/clippy-check@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-    
+
   test:
     name: Tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        rust: [stable, beta, nightly, 1.31.0]
+        rust: [stable, beta, nightly]
         TARGET: [x86_64-unknown-linux-gnu, x86_64-unknown-linux-musl]
         include:
           - rust: nightly
