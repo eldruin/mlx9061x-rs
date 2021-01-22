@@ -6,7 +6,10 @@ use crate::{
     Error, Mlx9061x, SlaveAddr,
 };
 use core::marker::PhantomData;
-use embedded_hal::blocking::{delay::DelayMs, i2c};
+use embedded_hal::{
+    blocking::{delay::DelayMs, i2c},
+    digital::v2::OutputPin,
+};
 
 impl<E, I2C> Mlx9061x<I2C, ic::Mlx90614>
 where
@@ -90,6 +93,19 @@ where
             return Err(Error::InvalidInputData);
         }
         self.write_u16_eeprom(Register::EMISSIVITY, eps as u16, delay)
+    }
+    /// Enter sleep mode. See datasheet, section 8.4.5.
+    pub fn sleep(&mut self) -> Result<(), Error<E>> {
+        // self.write_u16(0b1111_1111, 0)? // todo test this.
+        self.i2c.write(self.address, &[0xFF]).map_err(Error::I2C) // todo: Test this
+    }
+
+    /// Wake from sleep mode. See datasheet, section 8.4.5.
+    /// SCL pin high and then PWM/SDA pin low for at least t_(DDQ) > 33ms
+    pub fn wake<P: OutputPin, D: DelayMs<u8>>(&mut self, scl: &mut P, sda: &mut P, delay: &mut D) {
+        scl.set_high();
+        sda.set_low();
+        delay.delay_ms(35);
     }
 
     /// Get the device ID

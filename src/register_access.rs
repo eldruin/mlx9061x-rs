@@ -3,7 +3,9 @@ use embedded_hal::blocking::{delay, i2c};
 use smbus_pec::pec;
 
 pub mod mlx90614 {
+    // For these addresses, reference datasheet, section 8.4.5.
     const EEPROM_COMMAND: u8 = 0x20;
+    const SLEEP_COMMAND: u8 = 0b1111_1111;
     pub const DEV_ADDR: u8 = 0x5A;
     pub struct Register {}
     impl Register {
@@ -74,7 +76,6 @@ where
         self.write_u16(command, 0)?;
         delay.delay_ms(self.eeprom_write_delay_ms);
         self.write_u16(command, data)?;
-
         Ok(())
     }
 
