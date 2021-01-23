@@ -94,6 +94,25 @@ where
         }
         self.write_u16_eeprom(Register::EMISSIVITY, eps as u16, delay)
     }
+
+    /// Set the entire contents of the PWMCTRL EEPROM register.
+    /// See datasheet, section 8.3.3.
+    pub fn set_pwmctrl<D: DelayMs<u8>>(
+        &mut self,
+        word: u16,
+        delay: &mut D,
+    ) -> Result<(), Error<E>> {
+        // todo: This would make more sense with individual settings, instead
+        // todo of writing the whole register with a word.
+        self.write_u16_eeprom(Register::PWMCTRL, word, delay)
+    }
+
+    /// Read the entire contents of the PWMCTRL EEPROM register.
+    pub fn pwmctrl(&mut self) -> Result<u16, Error<E>> {
+        // todo: See note about individual settings in `set_pwmctrl`.
+        self.read_u16(Register::PWMCTRL)
+    }
+
     /// Enter sleep mode. See datasheet, section 8.4.5.
     pub fn sleep(&mut self) -> Result<(), Error<E>> {
         // self.write_u16(0b1111_1111, 0)? // todo test this.

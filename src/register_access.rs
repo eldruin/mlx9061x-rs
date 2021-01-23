@@ -9,6 +9,7 @@ pub mod mlx90614 {
     pub const DEV_ADDR: u8 = 0x5A;
     pub struct Register {}
     impl Register {
+        pub const PWMCTRL: u8 = 0x02 | EEPROM_COMMAND;
         pub const RAW_IR1: u8 = 0x04;
         pub const RAW_IR2: u8 = 0x05;
         pub const TA: u8 = 0x06;
