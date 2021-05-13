@@ -22,7 +22,7 @@ edition = "2018"
 
 [dependencies]
 embedded-hal = "0.2"
-smbus-pec = "0.1"
+smbus-pec = "1"
 
 [dev-dependencies]
 linux-embedded-hal = "0.3"
