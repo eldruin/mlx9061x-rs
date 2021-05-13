@@ -6,7 +6,7 @@ use crate::{
 use embedded_hal::blocking::{delay, i2c};
 
 impl<I2C, IC> Mlx9061x<I2C, IC> {
-    /// Destroy driver instance, return I²C bus and delay instance.
+    /// Destroy driver instance, return I²C bus.
     pub fn destroy(self) -> I2C {
         self.i2c
     }
