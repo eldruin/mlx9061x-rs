@@ -20,9 +20,6 @@ include = [
 ]
 edition = "2018"
 
-[badges]
-coveralls = { repository = "eldruin/mlx9061x-rs", branch = "master", service = "github" }
-
 [dependencies]
 embedded-hal = "0.2"
 smbus-pec = "0.1"
