@@ -125,6 +125,8 @@
 #![doc(html_root_url = "https://docs.rs/mlx9061x/0.1.0")]
 #![deny(unsafe_code, missing_docs)]
 #![no_std]
+// avoid suggestion about inclusive ranges containing floats
+#![allow(clippy::manual_range_contains)]
 
 use core::marker::PhantomData;
 mod mlx90614;
