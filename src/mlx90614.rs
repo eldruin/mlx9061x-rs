@@ -2,11 +2,14 @@
 
 use crate::{
     ic,
-    register_access::mlx90614::{Register, DEV_ADDR},
+    register_access::mlx90614::{self, Register, DEV_ADDR},
     Error, Mlx9061x, SlaveAddr,
 };
 use core::marker::PhantomData;
-use embedded_hal::blocking::{delay::DelayMs, i2c};
+use embedded_hal::{
+    blocking::{delay::DelayMs, i2c},
+    digital::v2::OutputPin,
+};
 
 impl<E, I2C> Mlx9061x<I2C, ic::Mlx90614>
 where
@@ -102,4 +105,23 @@ where
         }
         Ok(id)
     }
+}
+
+/// Wake device from sleep mode.
+///
+/// Note that this includes a 33ms delay.
+pub fn wake_mlx90614<
+    E,
+    SclPin: OutputPin<Error = E>,
+    SdaPin: OutputPin<Error = E>,
+    D: DelayMs<u8>,
+>(
+    scl: &mut SclPin,
+    sda: &mut SdaPin,
+    delay: &mut D,
+) -> Result<(), E> {
+    scl.set_high()?;
+    sda.set_low()?;
+    delay.delay_ms(mlx90614::WAKE_DELAY_MS);
+    sda.set_high()
 }

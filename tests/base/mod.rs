@@ -4,6 +4,7 @@ use mlx9061x::{ic, Mlx9061x, SlaveAddr};
 #[allow(unused)]
 pub mod mlx90614 {
     const EEPROM_COMMAND: u8 = 0x20;
+    pub const SLEEP_COMMAND: u8 = 0xFF;
     pub const DEV_ADDR: u8 = 0x5A;
     pub struct Register {}
     impl Register {
@@ -22,6 +23,7 @@ pub mod mlx90614 {
 pub mod mlx90615 {
     const EEPROM_COMMAND: u8 = 0x10;
     const RAM_COMMAND: u8 = 0x20;
+    pub const SLEEP_COMMAND: u8 = 0xC6;
     pub const DEV_ADDR: u8 = 0x5B;
     pub struct Register {}
     impl Register {

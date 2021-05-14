@@ -3,7 +3,7 @@ use crate::{
     register_access::{mlx90614, mlx90615},
     Error, Mlx9061x, SlaveAddr,
 };
-use embedded_hal::blocking::{delay, i2c};
+use embedded_hal::blocking::{delay::DelayMs, i2c};
 
 impl<I2C, IC> Mlx9061x<I2C, IC> {
     /// Destroy driver instance, return I²C bus.
@@ -23,7 +23,7 @@ macro_rules! common {
             /// The address will be stored in the EEPROM.
             /// The address will be first cleared, before the new one is written.
             /// After each write the configured delay will be waited except the last time.
-            pub fn set_address<D: delay::DelayMs<u8>>(
+            pub fn set_address<D: DelayMs<u8>>(
                 &mut self,
                 address: SlaveAddr,
                 delay_ms: &mut D,
@@ -32,6 +32,14 @@ macro_rules! common {
                 self.write_u16_eeprom($ic_reg::Register::ADDRESS, u16::from(address), delay_ms)?;
                 self.address = address;
                 Ok(())
+            }
+
+            /// Enter sleep mode
+            ///
+            /// After entering sleep, either destroy this driver to get the SDA/SCL pins back
+            /// and call the `wake()` method or perform a hardware POR to wake the device.
+            pub fn sleep(&mut self) -> Result<(), Error<E>> {
+                self.write_u8($ic_reg::SLEEP_COMMAND)
             }
         }
     };

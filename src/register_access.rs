@@ -4,6 +4,8 @@ use smbus_pec::pec;
 
 pub mod mlx90614 {
     const EEPROM_COMMAND: u8 = 0x20;
+    pub const SLEEP_COMMAND: u8 = 0xFF;
+    pub const WAKE_DELAY_MS: u8 = 33;
     pub const DEV_ADDR: u8 = 0x5A;
     pub struct Register {}
     impl Register {
@@ -21,6 +23,8 @@ pub mod mlx90614 {
 pub mod mlx90615 {
     const EEPROM_COMMAND: u8 = 0x10;
     const RAM_COMMAND: u8 = 0x20;
+    pub const SLEEP_COMMAND: u8 = 0xC6;
+    pub const WAKE_DELAY_MS: u8 = 39;
     pub const DEV_ADDR: u8 = 0x5B;
     pub struct Register {}
     impl Register {
@@ -54,6 +58,13 @@ where
             pec,
         )?;
         Ok(u16::from(data[0]) | (u16::from(data[1]) << 8))
+    }
+
+    pub(crate) fn write_u8(&mut self, command: u8) -> Result<(), Error<E>> {
+        let pec = pec(&[self.address << 1, command]);
+        self.i2c
+            .write(self.address, &[command, pec])
+            .map_err(Error::I2C)
     }
 
     pub(crate) fn write_u16(&mut self, command: u8, data: u16) -> Result<(), Error<E>> {

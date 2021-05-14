@@ -10,6 +10,8 @@
 //! - Get/Set the emissivity. See: [`set_emissivity()`].
 //! - Get the device ID. See: [`device_id()`].
 //! - Set the device address. See: [`set_address()`].
+//! - Put the device to sleep. See: [`sleep()`].
+//! - Wake the device from sleep. See: [`wake_mlx90614()`].
 //!
 //! [`object1_temperature()`]: struct.Mlx9061x.html#method.object1_temperature
 //! [`ambient_temperature()`]: struct.Mlx9061x.html#method.ambient_temperature
@@ -17,6 +19,7 @@
 //! [`set_emissivity()`]: struct.Mlx9061x.html#method.set_emissivity
 //! [`device_id()`]: struct.Mlx9061x.html#method.device_id
 //! [`set_address()`]: struct.Mlx9061x.html#method.set_address
+//! [`sleep()`]: struct.Mlx9061x.html#method.sleep
 //!
 //! <!-- TODO
 //! [Introductory blog post](TODO)
@@ -128,6 +131,70 @@
 //! let mut delay = Delay{};
 //! sensor.set_address(SlaveAddr::Alternative(0x5C), &mut delay).unwrap();
 //! ```
+//!
+//! ### Put the device to sleep and wake it again
+//!
+//! Note that the I2C pin construction/deconstruction depends on the HAL implementation.
+//!
+//! ```no_run
+//! # use embedded_hal::blocking::{delay::DelayMs, i2c};
+//! # use embedded_hal::digital::v2::OutputPin;
+//! # struct IoPin;
+//! # impl OutputPin for IoPin {
+//! #   type Error = ();
+//! #   fn set_high(&mut self) -> Result<(), ()> { Ok(()) }
+//! #   fn set_low(&mut self) -> Result<(), ()> { Ok(()) }
+//! # }
+//! #
+//! # struct I2c1 {
+//! #   scl: IoPin,
+//! #   sda: IoPin
+//! # }
+//! # impl i2c::Write for I2c1 {
+//! #   type Error = ();
+//! #   fn write(&mut self, addr: u8, data: &[u8]) -> Result<(), ()> { Ok(()) }
+//! # }
+//! # impl i2c::WriteRead for I2c1 {
+//! #   type Error = ();
+//! #   fn write_read(&mut self, addr: u8, data: &[u8], buf: &mut[u8]) -> Result<(), ()> { Ok(()) }
+//! # }
+//! #
+//! # impl I2c1 {
+//! #   fn new(scl: IoPin, sda: IoPin) -> Self {
+//! #     I2c1 {
+//! #       scl, sda
+//! #     }
+//! #   }
+//! #   fn free(self) -> (IoPin, IoPin) {
+//! #     (self.scl, self.sda)
+//! #   }
+//! # }
+//! #
+//! # struct Delay;
+//! # impl DelayMs<u8> for Delay {
+//! #   fn delay_ms(&mut self, _: u8) {}
+//! # }
+//! # let sda = IoPin;
+//! # let scl = IoPin;
+//! use mlx9061x::{Mlx9061x, SlaveAddr, wake_mlx90614};
+//!
+//! let i2cdev = I2c1::new(scl, sda); // This depends on your HAL
+//! let addr = SlaveAddr::default();
+//! let mut sensor = Mlx9061x::new_mlx90614(i2cdev, addr, 5).unwrap();
+//! // ...
+//! sensor.sleep().unwrap();
+//! // ...
+//! // To wake the device, destroy it and get the SCL/SDA pins back
+//! let i2cdev = sensor.destroy();
+//! let (mut scl, mut sda) = i2cdev.free(); // This depends on your HAL
+//! let mut delay = Delay{};
+//! wake_mlx90614(&mut scl, &mut sda, &mut delay).unwrap();
+//!
+//! // Now recreate the I2C device and sensor
+//! let i2cdev = I2c1::new(scl, sda);
+//! let mut sensor = Mlx9061x::new_mlx90614(i2cdev, addr, 5).unwrap();
+//! // Then you can use the sensor as usual
+//! ```
 
 #![doc(html_root_url = "https://docs.rs/mlx9061x/0.1.0")]
 #![deny(unsafe_code, missing_docs)]
@@ -137,7 +204,9 @@
 
 use core::marker::PhantomData;
 mod mlx90614;
+pub use mlx90614::wake_mlx90614;
 mod mlx90615;
+pub use mlx90615::wake_mlx90615;
 mod types;
 pub use crate::types::{ic, Error, SlaveAddr};
 mod common;

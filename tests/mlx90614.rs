@@ -1,7 +1,11 @@
 mod base;
 use crate::base::{destroy, mlx90614, mlx90614::Register as Reg, new_mlx90614};
-use embedded_hal_mock::{delay::MockNoop as NoopDelay, i2c::Transaction as I2cTrans};
-use mlx9061x::SlaveAddr;
+use embedded_hal_mock::{
+    delay::MockNoop as NoopDelay,
+    i2c::Transaction as I2cTrans,
+    pin::{Mock as PinMock, State as PinState, Transaction as PinTrans},
+};
+use mlx9061x::{wake_mlx90614, SlaveAddr};
 
 macro_rules! read_f32_test {
     ($name:ident, $method:ident, $reg:expr, $data0:expr, $data1:expr, $data2:expr, $expected:expr) => {
@@ -117,4 +121,24 @@ fn can_get_id() {
     ]);
     assert_eq!(0x1234_5678_9ABC_DEF0, sensor.device_id().unwrap());
     destroy(sensor);
+}
+
+#[test]
+fn can_sleep() {
+    let mut sensor = new_mlx90614(&[I2cTrans::write(
+        mlx90614::DEV_ADDR,
+        vec![mlx90614::SLEEP_COMMAND, 232],
+    )]);
+    sensor.sleep().unwrap();
+    destroy(sensor);
+}
+
+#[test]
+fn can_wake() {
+    let mut scl = PinMock::new(&[PinTrans::set(PinState::High)]);
+    let mut sda = PinMock::new(&[PinTrans::set(PinState::Low), PinTrans::set(PinState::High)]);
+    let mut delay = NoopDelay::new();
+    wake_mlx90614(&mut scl, &mut sda, &mut delay).unwrap();
+    scl.done();
+    sda.done()
 }

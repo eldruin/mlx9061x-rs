@@ -15,6 +15,8 @@ This driver allows you to:
 - Get/Set the emissivity. See: `set_emissivity()`.
 - Get the device ID. See: `device_id()`.
 - Set the device address. See: `set_address()`.
+- Put the device to sleep. See: `sleep()`.
+- Wake the device from sleep. See: `wake_mlx90614()`.
 
 <!-- TODO
 [Introductory blog post]()
@@ -27,11 +29,11 @@ Thanks to its low noise amplifier, 17-bit/16-bit ADC and powerful DSP unit,
 a high accuracy and resolution of the thermometer is achieved.
 
 Depending on the MLX90614 model they feature a single-zone or dual-zone thermopile.
- 
+
 The chips feature an 10-bit PWM and SMBus interface.
- 
+
 The readout resolution is 0.01°C (MLX90614) / 0.02°C (MLX90615).
- 
+
 This driver uses the SMBus interface.
 
 Documentation:

@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- Add support for device sleep and wake.
+
 ### Changed
 - Removed delays after final EEPROM writes before exiting a method.
   Users are advised to wait enough time before interacting with the device again.
