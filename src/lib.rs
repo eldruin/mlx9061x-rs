@@ -204,9 +204,9 @@
 
 use core::marker::PhantomData;
 mod mlx90614;
-pub use mlx90614::wake_mlx90614;
+pub use crate::mlx90614::wake_mlx90614;
 mod mlx90615;
-pub use mlx90615::wake_mlx90615;
+pub use crate::mlx90615::wake_mlx90615;
 mod types;
 pub use crate::types::{ic, Error, SlaveAddr};
 mod common;
