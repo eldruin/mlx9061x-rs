@@ -7,7 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-...
+### Changed
+- Removed delays after final EEPROM writes before exiting a method.
+  Users are advised to wait enough time before interacting with the device again.
+  Thanks to @David-OConnor for the suggestion.
 
 ## [0.1.0] - 2020-07-29
 

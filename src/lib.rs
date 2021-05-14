@@ -47,6 +47,13 @@
 //! To use this driver, import this crate and an `embedded_hal` implementation,
 //! then instantiate the device.
 //!
+//! At least when interacting with the EEPROM it is necessary to insert delays.
+//! This driver only adds the minimal amount of delays. i.e. only between two consecutive
+//! operations inside a method.
+//!
+//! *IMPORTANT*: Users are advised to wait enough time between operations.
+//! Otherwise the device will not behave properly.
+//!
 //! Please find additional examples using hardware in this repository: [driver-examples]
 //!
 //! [driver-examples]: https://github.com/eldruin/driver-examples

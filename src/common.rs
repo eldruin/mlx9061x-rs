@@ -22,7 +22,7 @@ macro_rules! common {
             ///
             /// The address will be stored in the EEPROM.
             /// The address will be first cleared, before the new one is written.
-            /// After each write the configured delay will be waited.
+            /// After each write the configured delay will be waited except the last time.
             pub fn set_address<D: delay::DelayMs<u8>>(
                 &mut self,
                 address: SlaveAddr,

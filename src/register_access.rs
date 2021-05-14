@@ -73,9 +73,7 @@ where
     ) -> Result<(), Error<E>> {
         self.write_u16(command, 0)?;
         delay.delay_ms(self.eeprom_write_delay_ms);
-        self.write_u16(command, data)?;
-        delay.delay_ms(self.eeprom_write_delay_ms);
-        Ok(())
+        self.write_u16(command, data)
     }
 
     pub(crate) fn check_pec(data: &[u8], expected: u8) -> Result<(), Error<E>> {
