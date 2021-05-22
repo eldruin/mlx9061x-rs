@@ -196,7 +196,7 @@
 //! // Then you can use the sensor as usual
 //! ```
 
-#![doc(html_root_url = "https://docs.rs/mlx9061x/0.1.0")]
+#![doc(html_root_url = "https://docs.rs/mlx9061x/0.2.0")]
 #![deny(unsafe_code, missing_docs)]
 #![no_std]
 // avoid suggestion about inclusive ranges containing floats
