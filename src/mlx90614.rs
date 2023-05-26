@@ -45,10 +45,24 @@ where
         Ok(t)
     }
 
+    /// Read the ambient temperature in celsius degrees as u16 value
+    pub fn ambient_temperature_as_int(&mut self) -> Result<u16, Error<E>> {
+        let t = self.read_u16(Register::TA)?;
+        let t = (t * 2) / 100 - 273;
+        Ok(t)
+    }
+
     /// Read the object 1 temperature in celsius degrees
     pub fn object1_temperature(&mut self) -> Result<f32, Error<E>> {
         let t = self.read_u16(Register::TOBJ1)?;
         let t = f32::from(t) * 0.02 - 273.15;
+        Ok(t)
+    }
+
+    /// Read the object 1 temperature in celsius degrees as u16 value
+    pub fn object1_temperature_as_int(&mut self) -> Result<u16, Error<E>> {
+        let t = self.read_u16(Register::TOBJ1)?;
+        let t = (t * 2) / 100 - 273;
         Ok(t)
     }
 
@@ -58,6 +72,15 @@ where
     pub fn object2_temperature(&mut self) -> Result<f32, Error<E>> {
         let t = self.read_u16(Register::TOBJ2)?;
         let t = f32::from(t) * 0.02 - 273.15;
+        Ok(t)
+    }
+
+    /// Read the object 2 temperature in celsius degrees as u16 value
+    ///
+    /// Note that this is only available in dual-zone thermopile device variants.
+    pub fn object2_temperature_as_int(&mut self) -> Result<u16, Error<E>> {
+        let t = self.read_u16(Register::TOBJ2)?;
+        let t = (t * 2) / 100 - 273;
         Ok(t)
     }
 
