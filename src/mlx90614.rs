@@ -124,7 +124,7 @@ where
         if eps < 6553 {
             return Err(Error::InvalidInputData);
         }
-        self.write_u16_eeprom(Register::EMISSIVITY, eps as u16, delay)
+        self.write_u16_eeprom(Register::EMISSIVITY, eps, delay)
     }
 
     /// Get the device ID

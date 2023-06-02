@@ -98,7 +98,7 @@ where
             return Err(Error::InvalidInputData);
         }
         let eps = (epsilon * 16384.0 + 0.5) as u16;
-        self.write_u16_eeprom(Register::EMISSIVITY, eps as u16, delay)
+        self.write_u16_eeprom(Register::EMISSIVITY, eps, delay)
     }
 
     /// Get the device ID
