@@ -38,6 +38,30 @@ read_f32_test!(
 );
 
 read_u16_test!(
+    read_object_temp_as_int,
+    new_mlx90615,
+    mlx90615::DEV_ADDR,
+    object_temperature_as_int,
+    Reg::TOBJ,
+    0x26,
+    0x3A,
+    0xAC,
+    0x18
+);
+
+read_u16_test!(
+    read_ta_as_int,
+    new_mlx90615,
+    mlx90615::DEV_ADDR,
+    ambient_temperature_as_int,
+    Reg::TA,
+    0x26,
+    0x3A,
+    0xBA,
+    0x18
+);
+
+read_u16_test!(
     read_raw_ir,
     new_mlx90615,
     mlx90615::DEV_ADDR,

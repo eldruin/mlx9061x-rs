@@ -48,10 +48,30 @@ where
         Ok(t)
     }
 
+    /// Read the ambient temperature in celsius degrees as u16 value
+    ///
+    /// Note ONLY use to avoid floating-point ops, as this gives less accurate
+    /// temperature readings compared to using `ambient_temperature()`.
+    pub fn ambient_temperature_as_int(&mut self) -> Result<u16, Error<E>> {
+        let t = self.read_u16(Register::TA)?;
+        let t = (t * 2) / 100 - 273;
+        Ok(t)
+    }
+
     /// Read the object temperature in celsius degrees
     pub fn object_temperature(&mut self) -> Result<f32, Error<E>> {
         let t = self.read_u16(Register::TOBJ)?;
         let t = f32::from(t) * 0.02 - 273.15;
+        Ok(t)
+    }
+
+    /// Read the object temperature in celsius degrees
+    ///
+    /// Note ONLY use to avoid floating-point ops, as this gives less accurate
+    /// temperature readings compared to using `object_temperature()`.
+    pub fn object_temperature_as_int(&mut self) -> Result<u16, Error<E>> {
+        let t = self.read_u16(Register::TOBJ)?;
+        let t = (t * 2) / 100 - 273;
         Ok(t)
     }
 

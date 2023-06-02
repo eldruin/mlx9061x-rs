@@ -48,6 +48,42 @@ read_f32_test!(
 );
 
 read_u16_test!(
+    read_ta_as_int,
+    new_mlx90614,
+    mlx90614::DEV_ADDR,
+    ambient_temperature_as_int,
+    Reg::TA,
+    0x0,
+    0x3A,
+    0xB6,
+    0x17
+);
+
+read_u16_test!(
+    read_object1_temp_as_int,
+    new_mlx90614,
+    mlx90614::DEV_ADDR,
+    object1_temperature_as_int,
+    Reg::TOBJ1,
+    0x26,
+    0x3A,
+    0x70,
+    0x18
+);
+
+read_u16_test!(
+    read_object2_temp_as_int,
+    new_mlx90614,
+    mlx90614::DEV_ADDR,
+    object2_temperature_as_int,
+    Reg::TOBJ2,
+    0x26,
+    0x3A,
+    0xA2,
+    0x18
+);
+
+read_u16_test!(
     read_raw_ir1,
     new_mlx90614,
     mlx90614::DEV_ADDR,
