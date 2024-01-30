@@ -95,7 +95,7 @@ where
             ],
             pec,
         )?;
-        Ok(self.msb_lsb_to_sign_magnitude(data[0], data[1]))
+        Ok(self.msb_lsb_to_sign_magnitude(data[1], data[0]))
     }
 
     pub(crate) fn write_u8(&mut self, command: u8) -> Result<(), Error<E>> {
