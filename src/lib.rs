@@ -137,8 +137,8 @@
 //! Note that the I2C pin construction/deconstruction depends on the HAL implementation.
 //!
 //! ```no_run
-//! # use embedded_hal::blocking::{delay::DelayMs, i2c};
-//! # use embedded_hal::digital::v2::OutputPin;
+//! # use embedded_hal::{delay::DelayNs, i2c::I2c};
+//! # use embedded_hal::digital::OutputPin;
 //! # struct IoPin;
 //! # impl OutputPin for IoPin {
 //! #   type Error = ();
@@ -150,13 +150,11 @@
 //! #   scl: IoPin,
 //! #   sda: IoPin
 //! # }
-//! # impl i2c::Write for I2c1 {
+//! # impl I2c for I2c1 {
 //! #   type Error = ();
-//! #   fn write(&mut self, addr: u8, data: &[u8]) -> Result<(), ()> { Ok(()) }
-//! # }
-//! # impl i2c::WriteRead for I2c1 {
-//! #   type Error = ();
-//! #   fn write_read(&mut self, addr: u8, data: &[u8], buf: &mut[u8]) -> Result<(), ()> { Ok(()) }
+//! #   fn read(&mut self, _: u8, _: &mut [u8]) -> Result<(), ())> { Ok(()) }
+//! #   fn write(&mut self, _: u8, _: &[u8]) -> Result<(), ()> { Ok(()) }
+//! #   fn write_read(&mut self, _: u8, _: &[u8], _: &mut[u8]) -> Result<(), ()> { Ok(()) }
 //! # }
 //! #
 //! # impl I2c1 {
@@ -171,8 +169,10 @@
 //! # }
 //! #
 //! # struct Delay;
-//! # impl DelayMs<u8> for Delay {
-//! #   fn delay_ms(&mut self, _: u8) {}
+//! # impl DelayNs for Delay {
+//! #   fn delay_ns(&mut self, _: u32) {}
+//! #   fn delay_us(&mut self, _: u32) {}
+//! #   fn delay_ms(&mut self, mut _: u32) {}
 //! # }
 //! # let sda = IoPin;
 //! # let scl = IoPin;
