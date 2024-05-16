@@ -152,7 +152,7 @@
 //! # }
 //! # impl I2c for I2c1 {
 //! #   type Error = ();
-//! #   fn read(&mut self, _: u8, _: &mut [u8]) -> Result<(), ())> { Ok(()) }
+//! #   fn read(&mut self, _: u8, _: &mut [u8]) -> Result<(), ()> { Ok(()) }
 //! #   fn write(&mut self, _: u8, _: &[u8]) -> Result<(), ()> { Ok(()) }
 //! #   fn write_read(&mut self, _: u8, _: &[u8], _: &mut[u8]) -> Result<(), ()> { Ok(()) }
 //! # }
