@@ -137,13 +137,17 @@
 //! Note that the I2C pin construction/deconstruction depends on the HAL implementation.
 //!
 //! ```no_run
-//! # use embedded_hal::{delay::DelayNs, i2c::I2c};
-//! # use embedded_hal::digital::OutputPin;
+//! # use embedded_hal::{delay::DelayNs, i2c::{self, I2c}};
+//! # use embedded_hal::digital::{self, OutputPin};
+//! # use core::convert::Infallible;
 //! # struct IoPin;
 //! # impl OutputPin for IoPin {
-//! #   type Error = ();
-//! #   fn set_high(&mut self) -> Result<(), ()> { Ok(()) }
-//! #   fn set_low(&mut self) -> Result<(), ()> { Ok(()) }
+//! #   fn set_high(&mut self) -> Result<(), Infallible> { Ok(()) }
+//! #   fn set_low(&mut self) -> Result<(), Infallible> { Ok(()) }
+//! # }
+//! #
+//! # impl digital::ErrorType for IoPin {
+//! #     type Error = Infallible;
 //! # }
 //! #
 //! # struct I2c1 {
@@ -151,10 +155,14 @@
 //! #   sda: IoPin
 //! # }
 //! # impl I2c for I2c1 {
-//! #   type Error = ();
-//! #   fn read(&mut self, _: u8, _: &mut [u8]) -> Result<(), ()> { Ok(()) }
-//! #   fn write(&mut self, _: u8, _: &[u8]) -> Result<(), ()> { Ok(()) }
-//! #   fn write_read(&mut self, _: u8, _: &[u8], _: &mut[u8]) -> Result<(), ()> { Ok(()) }
+//! #   fn read(&mut self, _: u8, _: &mut [u8]) -> Result<(), Infallible> { Ok(()) }
+//! #   fn write(&mut self, _: u8, _: &[u8]) -> Result<(), Infallible> { Ok(()) }
+//! #   fn write_read(&mut self, _: u8, _: &[u8], _: &mut[u8]) -> Result<(), Infallible> { Ok(()) }
+//! #   fn transaction(&mut self, _: u8, _: &mut [i2c::Operation<'_>]) -> Result<(), Infallible> { Ok(()) }
+//! # }
+//! #
+//! # impl i2c::ErrorType for I2c1 {
+//! #     type Error = Infallible;
 //! # }
 //! #
 //! # impl I2c1 {
@@ -172,7 +180,7 @@
 //! # impl DelayNs for Delay {
 //! #   fn delay_ns(&mut self, _: u32) {}
 //! #   fn delay_us(&mut self, _: u32) {}
-//! #   fn delay_ms(&mut self, mut _: u32) {}
+//! #   fn delay_ms(&mut self, _: u32) {}
 //! # }
 //! # let sda = IoPin;
 //! # let scl = IoPin;
