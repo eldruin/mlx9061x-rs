@@ -1,0 +1,11 @@
+{
+    "rust-analyzer.check.command": "clippy",
+    "rust-analyzer.check.allTargets": false,
+    "rust-analyzer.check.extraArgs": [
+        "--target",
+        "x86_64-unknown-linux-musl"
+    ],
+    "rust-analyzer.cargo.noDefaultFeatures": true,
+    "rust-analyzer.imports.preferNoStd": true,
+    "rust-analyzer.showUnlinkedFileNotification": false,
+}

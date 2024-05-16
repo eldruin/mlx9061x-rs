@@ -1,7 +1,7 @@
 mod base;
 use crate::base::{destroy, mlx90615, mlx90615::Register as Reg, new_mlx90615};
-use embedded_hal_mock::{
-    delay::MockNoop as NoopDelay,
+use embedded_hal_mock::eh1::{
+    delay::NoopDelay,
     i2c::Transaction as I2cTrans,
     pin::{Mock as PinMock, State as PinState, Transaction as PinTrans},
 };

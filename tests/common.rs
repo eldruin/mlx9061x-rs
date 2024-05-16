@@ -1,7 +1,7 @@
 mod base;
 use crate::base::{destroy, mlx90614, mlx90615, new_mlx90614, new_mlx90615};
-use embedded_hal_mock::{
-    delay::MockNoop as NoopDelay,
+use embedded_hal_mock::eh1::{
+    delay::NoopDelay,
     i2c::{Mock as I2cMock, Transaction as I2cTrans},
 };
 use mlx9061x::{Error, Mlx9061x, SlaveAddr};

@@ -216,7 +216,7 @@ mod register_access;
 pub struct Mlx9061x<I2C, IC> {
     /// The concrete I²C device implementation.
     i2c: I2C,
-    eeprom_write_delay_ms: u8,
+    eeprom_write_delay_ms: u32,
     address: u8,
     _ic: PhantomData<IC>,
 }

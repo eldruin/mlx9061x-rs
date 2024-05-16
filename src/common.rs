@@ -3,7 +3,7 @@ use crate::{
     register_access::{mlx90614, mlx90615},
     Error, Mlx9061x, SlaveAddr,
 };
-use embedded_hal::blocking::{delay::DelayMs, i2c};
+use embedded_hal::{delay::DelayNs, i2c::I2c};
 
 impl<I2C, IC> Mlx9061x<I2C, IC> {
     /// Destroy driver instance, return I²C bus.
@@ -16,14 +16,14 @@ macro_rules! common {
     ($ic_marker:ident, $ic_reg:ident) => {
         impl<E, I2C> Mlx9061x<I2C, ic::$ic_marker>
         where
-            I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
+            I2C: I2c<Error = E>,
         {
             /// Change the device address
             ///
             /// The address will be stored in the EEPROM.
             /// The address will be first cleared, before the new one is written.
             /// After each write the configured delay will be waited except the last time.
-            pub fn set_address<D: DelayMs<u8>>(
+            pub fn set_address<D: DelayNs>(
                 &mut self,
                 address: SlaveAddr,
                 delay_ms: &mut D,
