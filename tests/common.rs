@@ -16,14 +16,19 @@ macro_rules! tests {
 
         #[test]
         fn wrong_address_raises_error() {
+            let mut below_min_mock = I2cMock::new(&[]);
             assert_error!(
-                Mlx9061x::$create(I2cMock::new(&[]), SlaveAddr::Alternative(0), 5),
+                Mlx9061x::$create(below_min_mock.clone(), SlaveAddr::Alternative(0), 5),
                 InvalidInputData
             );
+            below_min_mock.done();
+
+            let mut above_max_mock = I2cMock::new(&[]);
             assert_error!(
-                Mlx9061x::$create(I2cMock::new(&[]), SlaveAddr::Alternative(128), 5),
+                Mlx9061x::$create(above_max_mock.clone(), SlaveAddr::Alternative(128), 5),
                 InvalidInputData
             );
+            above_max_mock.done();
         }
 
         #[test]
