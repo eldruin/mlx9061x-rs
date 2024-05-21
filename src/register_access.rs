@@ -24,7 +24,7 @@ pub mod mlx90615 {
     const EEPROM_COMMAND: u8 = 0x10;
     const RAM_COMMAND: u8 = 0x20;
     pub const SLEEP_COMMAND: u8 = 0xC6;
-    pub const WAKE_DELAY_MS: u32 = 39;
+    pub const WAKE_DELAY_MS: u8 = 39;
     pub const DEV_ADDR: u8 = 0x5B;
     pub struct Register {}
     impl Register {
