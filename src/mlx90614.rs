@@ -146,6 +146,6 @@ pub fn wake_mlx90614<E, SclPin: OutputPin<Error = E>, SdaPin: OutputPin<Error = 
 ) -> Result<(), E> {
     scl.set_high()?;
     sda.set_low()?;
-    delay.delay_ms(mlx90614::WAKE_DELAY_MS);
+    delay.delay_ms(mlx90614::WAKE_DELAY_MS as u32);
     sda.set_high()
 }
