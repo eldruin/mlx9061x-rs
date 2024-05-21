@@ -15,14 +15,17 @@ macro_rules! tests {
         }
 
         #[test]
-        fn wrong_address_raises_error() {
+        fn address_below_minimum_raises_error() {
             let mut below_min_mock = I2cMock::new(&[]);
             assert_error!(
                 Mlx9061x::$create(below_min_mock.clone(), SlaveAddr::Alternative(0), 5),
                 InvalidInputData
             );
             below_min_mock.done();
+        }
 
+        #[test]
+        fn address_above_maximum_raises_error() {
             let mut above_max_mock = I2cMock::new(&[]);
             assert_error!(
                 Mlx9061x::$create(above_max_mock.clone(), SlaveAddr::Alternative(128), 5),
