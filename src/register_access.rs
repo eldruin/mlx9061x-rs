@@ -5,7 +5,7 @@ use smbus_pec::pec;
 pub mod mlx90614 {
     const EEPROM_COMMAND: u8 = 0x20;
     pub const SLEEP_COMMAND: u8 = 0xFF;
-    pub const WAKE_DELAY_MS: u32 = 33;
+    pub const WAKE_DELAY_MS: u8 = 33;
     pub const DEV_ADDR: u8 = 0x5A;
     pub struct Register {}
     impl Register {
