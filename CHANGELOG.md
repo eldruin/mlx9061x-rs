@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - [breaking-change] Transitioned `embedded-hal` to version 1.0
+- Add feature defmt-03
+- When feature enabled, "defmt::Format" is derived for any public struct or enum that derives Debug.
 
 ## [0.2.1] - 2023-06-02
 
