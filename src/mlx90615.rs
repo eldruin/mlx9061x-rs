@@ -22,7 +22,7 @@ where
     pub fn new_mlx90615(
         i2c: I2C,
         address: SlaveAddr,
-        eeprom_write_delay_ms: u32,
+        eeprom_write_delay_ms: u8,
     ) -> Result<Self, Error<E>> {
         let address = Self::get_address(address, DEV_ADDR)?;
         Ok(Mlx9061x {
