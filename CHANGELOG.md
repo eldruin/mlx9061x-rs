@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-- Methods for reading tempature as a integer (`u16`).
+- Methods for reading temperature as a integer (`u16`).
   Users are advised to ONLY use these methods if running into to trouble using
   the standard temperature reading methods returning `f32` values as it's a more accurate read.
 
