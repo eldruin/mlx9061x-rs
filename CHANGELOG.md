@@ -8,10 +8,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+### Added
+
+- Add feature `defmt-03` to derive "`defmt::Format`" from `defmt = "0.3"` for public types.
+
 ### Changed
 
 - [breaking-change] Transitioned `embedded-hal` to version 1.0
-- Add feature `defmt-03` to derive "`defmt::Format`" from `defmt = "0.3"` for public types.
 
 ## [0.2.1] - 2023-06-02
 
