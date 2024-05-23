@@ -137,26 +137,32 @@
 //! Note that the I2C pin construction/deconstruction depends on the HAL implementation.
 //!
 //! ```no_run
-//! # use embedded_hal::blocking::{delay::DelayMs, i2c};
-//! # use embedded_hal::digital::v2::OutputPin;
+//! # use embedded_hal::{delay::DelayNs, i2c::{self, I2c}};
+//! # use embedded_hal::digital::{self, OutputPin};
+//! # use core::convert::Infallible;
 //! # struct IoPin;
 //! # impl OutputPin for IoPin {
-//! #   type Error = ();
-//! #   fn set_high(&mut self) -> Result<(), ()> { Ok(()) }
-//! #   fn set_low(&mut self) -> Result<(), ()> { Ok(()) }
+//! #   fn set_high(&mut self) -> Result<(), Infallible> { Ok(()) }
+//! #   fn set_low(&mut self) -> Result<(), Infallible> { Ok(()) }
+//! # }
+//! #
+//! # impl digital::ErrorType for IoPin {
+//! #     type Error = Infallible;
 //! # }
 //! #
 //! # struct I2c1 {
 //! #   scl: IoPin,
 //! #   sda: IoPin
 //! # }
-//! # impl i2c::Write for I2c1 {
-//! #   type Error = ();
-//! #   fn write(&mut self, addr: u8, data: &[u8]) -> Result<(), ()> { Ok(()) }
+//! # impl I2c for I2c1 {
+//! #   fn read(&mut self, _: u8, _: &mut [u8]) -> Result<(), Infallible> { Ok(()) }
+//! #   fn write(&mut self, _: u8, _: &[u8]) -> Result<(), Infallible> { Ok(()) }
+//! #   fn write_read(&mut self, _: u8, _: &[u8], _: &mut[u8]) -> Result<(), Infallible> { Ok(()) }
+//! #   fn transaction(&mut self, _: u8, _: &mut [i2c::Operation<'_>]) -> Result<(), Infallible> { Ok(()) }
 //! # }
-//! # impl i2c::WriteRead for I2c1 {
-//! #   type Error = ();
-//! #   fn write_read(&mut self, addr: u8, data: &[u8], buf: &mut[u8]) -> Result<(), ()> { Ok(()) }
+//! #
+//! # impl i2c::ErrorType for I2c1 {
+//! #     type Error = Infallible;
 //! # }
 //! #
 //! # impl I2c1 {
@@ -171,8 +177,10 @@
 //! # }
 //! #
 //! # struct Delay;
-//! # impl DelayMs<u8> for Delay {
-//! #   fn delay_ms(&mut self, _: u8) {}
+//! # impl DelayNs for Delay {
+//! #   fn delay_ns(&mut self, _: u32) {}
+//! #   fn delay_us(&mut self, _: u32) {}
+//! #   fn delay_ms(&mut self, _: u32) {}
 //! # }
 //! # let sda = IoPin;
 //! # let scl = IoPin;

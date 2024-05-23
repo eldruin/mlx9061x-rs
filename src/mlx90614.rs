@@ -6,14 +6,11 @@ use crate::{
     Error, Mlx9061x, SlaveAddr,
 };
 use core::marker::PhantomData;
-use embedded_hal::{
-    blocking::{delay::DelayMs, i2c},
-    digital::v2::OutputPin,
-};
+use embedded_hal::{delay::DelayNs, digital::OutputPin, i2c::I2c};
 
 impl<E, I2C> Mlx9061x<I2C, ic::Mlx90614>
 where
-    I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
+    I2C: I2c<Error = E>,
 {
     /// Create new instance of the MLX90614 device.
     ///
@@ -112,7 +109,7 @@ where
     /// Set emissivity epsilon [0.1-1.0]
     ///
     /// Wrong values will return `Error::InvalidInputData`.
-    pub fn set_emissivity<D: DelayMs<u8>>(
+    pub fn set_emissivity<D: DelayNs>(
         &mut self,
         epsilon: f32,
         delay: &mut D,
@@ -142,18 +139,13 @@ where
 /// Wake device from sleep mode.
 ///
 /// Note that this includes a 33ms delay.
-pub fn wake_mlx90614<
-    E,
-    SclPin: OutputPin<Error = E>,
-    SdaPin: OutputPin<Error = E>,
-    D: DelayMs<u8>,
->(
+pub fn wake_mlx90614<E, SclPin: OutputPin<Error = E>, SdaPin: OutputPin<Error = E>, D: DelayNs>(
     scl: &mut SclPin,
     sda: &mut SdaPin,
     delay: &mut D,
 ) -> Result<(), E> {
     scl.set_high()?;
     sda.set_low()?;
-    delay.delay_ms(mlx90614::WAKE_DELAY_MS);
+    delay.delay_ms(mlx90614::WAKE_DELAY_MS as u32);
     sda.set_high()
 }

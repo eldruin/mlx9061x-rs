@@ -4,14 +4,11 @@ use crate::{
     Error, Mlx9061x, SlaveAddr,
 };
 use core::marker::PhantomData;
-use embedded_hal::{
-    blocking::{delay::DelayMs, i2c},
-    digital::v2::OutputPin,
-};
+use embedded_hal::{delay::DelayNs, digital::OutputPin, i2c::I2c};
 
 impl<E, I2C> Mlx9061x<I2C, ic::Mlx90615>
 where
-    I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
+    I2C: I2c<Error = E>,
 {
     /// Create new instance of the MLX90615 device.
     ///
@@ -39,7 +36,7 @@ where
 
 impl<E, I2C> Mlx9061x<I2C, ic::Mlx90615>
 where
-    I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
+    I2C: I2c<Error = E>,
 {
     /// Read the ambient temperature in celsius degrees
     pub fn ambient_temperature(&mut self) -> Result<f32, Error<E>> {
@@ -89,7 +86,7 @@ where
     /// Set emissivity epsilon [0.0-1.0]
     ///
     /// Wrong values will return `Error::InvalidInputData`.
-    pub fn set_emissivity<D: DelayMs<u8>>(
+    pub fn set_emissivity<D: DelayNs>(
         &mut self,
         epsilon: f32,
         delay: &mut D,
@@ -112,11 +109,11 @@ where
 /// Wake device from sleep mode.
 ///
 /// Note that this includes a 39ms delay.
-pub fn wake_mlx90615<E, P: OutputPin<Error = E>, D: DelayMs<u8>>(
+pub fn wake_mlx90615<E, P: OutputPin<Error = E>, D: DelayNs>(
     scl: &mut P,
     delay: &mut D,
 ) -> Result<(), E> {
     scl.set_low()?;
-    delay.delay_ms(mlx90615::WAKE_DELAY_MS);
+    delay.delay_ms(mlx90615::WAKE_DELAY_MS as u32);
     scl.set_high()
 }

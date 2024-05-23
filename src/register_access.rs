@@ -1,5 +1,5 @@
 use crate::{Error, Mlx9061x, SlaveAddr};
-use embedded_hal::blocking::{delay, i2c};
+use embedded_hal::{delay::DelayNs, i2c::I2c};
 use smbus_pec::pec;
 
 pub mod mlx90614 {
@@ -39,7 +39,7 @@ pub mod mlx90615 {
 
 impl<E, I2C, IC> Mlx9061x<I2C, IC>
 where
-    I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
+    I2C: I2c<Error = E>,
 {
     pub(crate) fn read_u16(&mut self, register: u8) -> Result<u16, Error<E>> {
         let mut data = [0; 3];
@@ -76,14 +76,14 @@ where
             .map_err(Error::I2C)
     }
 
-    pub(crate) fn write_u16_eeprom<D: delay::DelayMs<u8>>(
+    pub(crate) fn write_u16_eeprom<D: DelayNs>(
         &mut self,
         command: u8,
         data: u16,
         delay: &mut D,
     ) -> Result<(), Error<E>> {
         self.write_u16(command, 0)?;
-        delay.delay_ms(self.eeprom_write_delay_ms);
+        delay.delay_ms(self.eeprom_write_delay_ms as u32);
         self.write_u16(command, data)
     }
 
@@ -98,7 +98,7 @@ where
     pub(crate) fn get_address(address: SlaveAddr, default: u8) -> Result<u8, Error<E>> {
         match address {
             SlaveAddr::Default => Ok(default),
-            SlaveAddr::Alternative(a) if a == 0 => Err(Error::InvalidInputData),
+            SlaveAddr::Alternative(0) => Err(Error::InvalidInputData),
             SlaveAddr::Alternative(a) if a > 127 => Err(Error::InvalidInputData),
             SlaveAddr::Alternative(a) => Ok(a),
         }
