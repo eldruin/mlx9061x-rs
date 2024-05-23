@@ -74,7 +74,7 @@ To enable [defmt](https://crates.io/crates/defmt) (version `0.3.x`) support, whe
 
 ```toml
 [dependencies]
-mlx9061x = { version = "0.2.1", features = ["defmt-03"] }
+mlx9061x = { version = "0.3.0", features = ["defmt-03"] }
 ```
 
 ## Support
