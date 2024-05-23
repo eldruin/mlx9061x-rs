@@ -114,6 +114,6 @@ pub fn wake_mlx90615<E, P: OutputPin<Error = E>, D: DelayNs>(
     delay: &mut D,
 ) -> Result<(), E> {
     scl.set_low()?;
-    delay.delay_ms(mlx90615::WAKE_DELAY_MS as u32);
+    delay.delay_ms(u32::from(mlx90615::WAKE_DELAY_MS));
     scl.set_high()
 }

@@ -83,7 +83,7 @@ where
         delay: &mut D,
     ) -> Result<(), Error<E>> {
         self.write_u16(command, 0)?;
-        delay.delay_ms(self.eeprom_write_delay_ms as u32);
+        delay.delay_ms(u32::from(self.eeprom_write_delay_ms));
         self.write_u16(command, data)
     }
 
