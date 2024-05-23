@@ -2,6 +2,7 @@
 
 [![crates.io](https://img.shields.io/crates/v/mlx9061x.svg)](https://crates.io/crates/mlx9061x)
 [![Docs](https://docs.rs/mlx9061x/badge.svg)](https://docs.rs/mlx9061x)
+![Minimum Supported Rust Version](https://img.shields.io/badge/rustc-1.62+-blue.svg)
 [![Build Status](https://github.com/eldruin/mlx9061x-rs/workflows/Build/badge.svg)](https://github.com/eldruin/mlx9061x-rs/actions?query=workflow%3ABuild)
 [![Coverage Status](https://coveralls.io/repos/github/eldruin/mlx9061x-rs/badge.svg?branch=master)](https://coveralls.io/github/eldruin/mlx9061x-rs?branch=master)
 
