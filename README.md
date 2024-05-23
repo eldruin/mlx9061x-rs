@@ -67,37 +67,13 @@ fn main() {
 ```
 
 ## Features
-
 ### defmt-03
 
-defmt ("de format", short for "deferred formatting") is a highly efficient logging framework that targets resource-constrained devices, like microcontrollers. Learn more about defmt at [https://defmt.ferrous-systems.com].
-
-When feature "defmt-03" is enabled for the mlx9061x-rs dependency, defmt::Format is derived for most public struct and enum definitions. This allows (deferred-)formatting of data for logging and other reporting using the defmt crate. Data from the mlx9061x crate can then be logged alongside any other defmt-supported data using the normal defmt statements.
-
-To enable defmt support, when specifying a dependency on mlx9061x, add the feature "defmt-03"
+To enable [defmt](https://crates.io/crates/defmt) (version `0.3.x`) support, when specifying the dependency on `mlx9061x`, add the feature "`defmt-03`".
 
 ```toml
 [dependencies]
-mlx9061x = { version = "0.3.0", features = ["defmt-03"] }
-```
-
-#### defmt-03 usage
-
-```rust
-use linux_embedded_hal::I2cdev;
-use mlx9061x::{Mlx9061x, SlaveAddr};
-
-fn main() {
-    let dev = I2cdev::new("/dev/i2c-1").unwrap();
-    let addr = SlaveAddr::default();
-    let mut sensor = Mlx9061x::new_mlx90614(dev, addr, 5).unwrap();
-    loop {
-        match sensor.object1_temperature() {
-          Ok(obj_temp) => defmt::info!("Object temperature: {=f32}ºC", obj_temp),
-          Err(err) => defmt::error!("mlx9061x error {:?}", err),
-        }
-    }
-}
+mlx9061x = { version = "0.2.1", features = ["defmt-03"] }
 ```
 
 ## Support

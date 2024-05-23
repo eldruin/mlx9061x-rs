@@ -45,6 +45,16 @@
 //! - Datasheets: [MLX90614](https://www.melexis.com/-/media/files/documents/datasheets/mlx90614-datasheet-melexis.pdf), [MLX90615](https://www.melexis.com/-/media/files/documents/datasheets/mlx90615-datasheet-melexis.pdf)
 //! - [SMBus communication with MLX90614](https://www.melexis.com/-/media/files/documents/application-notes/mlx90614-smbus-communication-application-note-melexis.pdf)
 //!
+//! ## Features
+//! ### defmt-03
+//!
+//! To enable [defmt](https://crates.io/crates/defmt) (version `0.3.x`) support, when specifying the dependency on `mlx9061x`, add the feature "`defmt-03`".
+//!
+//! ```toml
+//! [dependencies]
+//! mlx9061x = { version = "0.2.1", features = ["defmt-03"] }
+//! ```
+//!
 //! ## Usage examples (see also examples folder)
 //!
 //! To use this driver, import this crate and an `embedded_hal` implementation,
