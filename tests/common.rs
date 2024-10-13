@@ -74,7 +74,6 @@ macro_rules! tests {
             );
             destroy(sensor);
         }
-
     };
 }
 
@@ -90,7 +89,11 @@ macro_rules! msb_lsb_to_sign_magnitude_test {
             let result = sensor.msb_lsb_to_sign_magnitude($msb, $lsb);
 
             // Assert that the result matches the expected value
-            assert_eq!(result, $expected, "For MSB: {:#X}, LSB: {:#X}, expected: {}, got: {}", $msb, $lsb, $expected, result);
+            assert_eq!(
+                result, $expected,
+                "For MSB: {:#X}, LSB: {:#X}, expected: {}, got: {}",
+                $msb, $lsb, $expected, result
+            );
 
             // Cleanup
             destroy(sensor);
