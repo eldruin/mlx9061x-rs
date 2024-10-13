@@ -108,3 +108,20 @@ macro_rules! read_u16_test {
         }
     };
 }
+
+#[macro_export]
+macro_rules! read_i16_test {
+    ($name:ident, $create:ident, $address:expr, $method:ident, $reg:expr, $data0:expr, $data1:expr, $data2:expr, $expected:expr) => {
+        #[test]
+        fn $name() {
+            let mut sensor = $create(&[I2cTrans::write_read(
+                $address,
+                vec![$reg],
+                vec![$data0, $data1, $data2],
+            )]);
+            let t = sensor.$method().unwrap();
+            assert_eq!(t, $expected);
+            destroy(sensor);
+        }
+    };
+}

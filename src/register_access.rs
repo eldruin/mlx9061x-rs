@@ -64,7 +64,7 @@ where
         Ok(u16::from(data[0]) | (u16::from(data[1]) << 8))
     }
 
-    fn msb_lsb_to_sign_magnitude(&self, msb: u8, lsb: u8) -> i16 {
+    pub(crate) fn msb_lsb_to_sign_magnitude(&self, msb: u8, lsb: u8) -> i16 {
         // Extract the sign bit from the MSB
         let sign_bit = msb & 0b10000000;
 
