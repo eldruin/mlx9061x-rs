@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+### Added
+
+- Add `read_i16()` to get accurate reading of raw values for objects colder than the sensor.
+
 ## [0.3.0] - 2024-05-23
 
 ### Added
