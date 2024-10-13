@@ -138,7 +138,7 @@ mod msb_lsb_to_sign_magnitude_tests {
         new_mlx90614,
         0x80,
         0x00,
-        -32768
+        -0
     );
 
     // Test case for a small negative value (0x81, 0x02 -> -258)
@@ -156,7 +156,7 @@ mod msb_lsb_to_sign_magnitude_tests {
         new_mlx90614,
         0xFF,
         0xFF,
-        -1
+        -32767
     );
 }
 
