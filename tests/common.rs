@@ -83,7 +83,7 @@ macro_rules! msb_lsb_to_sign_magnitude_test {
         #[test]
         fn $name() {
             // Initialize the sensor with no I2C transactions
-            let mut sensor = $create(&[]);
+            let sensor = $create(&[]);
 
             // Run the test case
             let result = sensor.msb_lsb_to_sign_magnitude($msb, $lsb);
@@ -106,58 +106,22 @@ mod msb_lsb_to_sign_magnitude_tests {
     use crate::base::{destroy, new_mlx90614};
 
     // Test case for zero (0x00, 0x00)
-    msb_lsb_to_sign_magnitude_test!(
-        test_msb_lsb_zero,
-        new_mlx90614,
-        0x00,
-        0x00,
-        0
-    );
+    msb_lsb_to_sign_magnitude_test!(test_msb_lsb_zero, new_mlx90614, 0x00, 0x00, 0);
 
     // Test case for small positive value (0x01, 0x02 -> 258)
-    msb_lsb_to_sign_magnitude_test!(
-        test_msb_lsb_positive_258,
-        new_mlx90614,
-        0x01,
-        0x02,
-        258
-    );
+    msb_lsb_to_sign_magnitude_test!(test_msb_lsb_positive_258, new_mlx90614, 0x01, 0x02, 258);
 
     // Test case for maximum positive value (0x7F, 0xFF -> 32767)
-    msb_lsb_to_sign_magnitude_test!(
-        test_msb_lsb_max_positive,
-        new_mlx90614,
-        0x7F,
-        0xFF,
-        32767
-    );
+    msb_lsb_to_sign_magnitude_test!(test_msb_lsb_max_positive, new_mlx90614, 0x7F, 0xFF, 32767);
 
     // Test case for minimum negative value (0x80, 0x00 -> -32768)
-    msb_lsb_to_sign_magnitude_test!(
-        test_msb_lsb_min_negative,
-        new_mlx90614,
-        0x80,
-        0x00,
-        -0
-    );
+    msb_lsb_to_sign_magnitude_test!(test_msb_lsb_min_negative, new_mlx90614, 0x80, 0x00, -0);
 
     // Test case for a small negative value (0x81, 0x02 -> -258)
-    msb_lsb_to_sign_magnitude_test!(
-        test_msb_lsb_negative_258,
-        new_mlx90614,
-        0x81,
-        0x02,
-        -258
-    );
+    msb_lsb_to_sign_magnitude_test!(test_msb_lsb_negative_258, new_mlx90614, 0x81, 0x02, -258);
 
     // Test case for -1 (0xFF, 0xFF -> -1)
-    msb_lsb_to_sign_magnitude_test!(
-        test_msb_lsb_negative_one,
-        new_mlx90614,
-        0xFF,
-        0xFF,
-        -32767
-    );
+    msb_lsb_to_sign_magnitude_test!(test_msb_lsb_negative_one, new_mlx90614, 0xFF, 0xFF, -32767);
 }
 
 mod mlx90614_tests {
