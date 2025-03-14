@@ -64,29 +64,6 @@ where
         Ok(u16::from(data[0]) | (u16::from(data[1]) << 8))
     }
 
-    /// Converts the provided MSB (Most Significant Byte) and LSB (Least Significant Byte)
-    /// into a signed 16-bit integer in sign-magnitude format.
-    ///
-    /// # Sign-Magnitude Representation:
-    /// The sign-magnitude format represents the sign of the number in the most significant bit (MSB).
-    /// - If the MSB's most significant bit is set (1), the number is negative.
-    /// - If the MSB's most significant bit is clear (0), the number is positive.
-    ///
-    /// The remaining 15 bits represent the magnitude of the number.
-    ///
-    /// # Parameters:
-    /// - `msb`: The Most Significant Byte (MSB) of the 16-bit number.
-    /// - `lsb`: The Least Significant Byte (LSB) of the 16-bit number.
-    ///
-    /// # Returns:
-    /// An `i16` value representing the signed 16-bit integer in sign-magnitude format.
-    /// - Positive values if the MSB's most significant bit is 0.
-    /// - Negative values if the MSB's most significant bit is 1.
-    ///
-    /// # Notes:
-    /// - This method assumes the input values are in sign-magnitude format.
-    /// - The highest bit of the MSB is used to determine the sign (positive or negative).
-
     pub fn msb_lsb_to_sign_magnitude(&self, msb: u8, lsb: u8) -> i16 {
         let sign_bit = msb & 0b1000_0000;
 
