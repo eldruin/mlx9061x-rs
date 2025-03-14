@@ -67,7 +67,6 @@ where
     pub fn msb_lsb_to_sign_magnitude(&self, msb: u8, lsb: u8) -> i16 {
         let sign_bit = msb & 0b1000_0000;
 
-        // Combine the remaining bits from MSB and LSB
         let value = ((msb & 0b0111_1111) as i16) << 8 | lsb as i16;
 
         if sign_bit != 0 {
