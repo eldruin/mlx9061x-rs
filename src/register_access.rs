@@ -88,7 +88,6 @@ where
     /// - The highest bit of the MSB is used to determine the sign (positive or negative).
 
     pub fn msb_lsb_to_sign_magnitude(&self, msb: u8, lsb: u8) -> i16 {
-        // Extract the sign bit from the MSB
         let sign_bit = msb & 0b10000000;
 
         // Combine the remaining bits from MSB and LSB
