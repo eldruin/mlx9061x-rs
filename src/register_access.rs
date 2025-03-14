@@ -160,6 +160,6 @@ mod msb_lsb_to_sign_magnitude_tests {
     msb_lsb_to_sign_magnitude_test!(test_msb_lsb_negative_258, 0x81, 0x02, -258);
 
     msb_lsb_to_sign_magnitude_test!(test_msb_lsb_negative_32767, 0xFF, 0xFF, -32767);
-    
+
     msb_lsb_to_sign_magnitude_test!(test_msb_lsb_negative_one, 0x80, 0x01, -1);
 }
