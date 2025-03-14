@@ -93,7 +93,6 @@ where
         // Combine the remaining bits from MSB and LSB
         let value = ((msb & 0b01111111) as i16) << 8 | lsb as i16;
 
-        // If the sign bit is set, make the value negative
         if sign_bit != 0 {
             -value
         } else {
