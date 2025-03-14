@@ -6,11 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- next-header -->
+
 ## [Unreleased] - ReleaseDate
 
 ### Added
 
-- Add `read_i16()` to get accurate reading of raw values for objects colder than the sensor.
+- [breaking-change] Changed return type of the `raw_ir`, `raw_ir_channel1` and `raw_ir_channel2` method to `i16` to fix
+  a readout conversion error.
 
 ## [0.3.0] - 2024-05-23
 
@@ -47,8 +49,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 Initial release to crates.io.
 
 <!-- next-url -->
+
 [Unreleased]: https://github.com/eldruin/mlx9061x-rs/compare/v0.3.0...HEAD
+
 [0.3.0]: https://github.com/eldruin/mlx9061x-rs/compare/v0.2.1...v0.3.0
+
 [0.2.1]: https://github.com/eldruin/mlx9061x-rs/compare/v0.2.0...v0.2.1
+
 [0.2.0]: https://github.com/eldruin/mlx9061x-rs/compare/v0.1.0...v0.2.0
+
 [0.1.0]: https://github.com/eldruin/mlx9061x-rs/releases/tag/v0.1.0
