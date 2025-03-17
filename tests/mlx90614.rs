@@ -83,7 +83,7 @@ read_u16_test!(
     0x18
 );
 
-read_u16_test!(
+read_i16_test!(
     read_raw_ir1,
     new_mlx90614,
     mlx90614::DEV_ADDR,
@@ -95,7 +95,7 @@ read_u16_test!(
     0x3A26
 );
 
-read_u16_test!(
+read_i16_test!(
     read_raw_ir2,
     new_mlx90614,
     mlx90614::DEV_ADDR,

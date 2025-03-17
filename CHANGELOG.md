@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+### Changed
+
+- [breaking-change] Changed return type of the `raw_ir`, `raw_ir_channel1` and `raw_ir_channel2` methods to `i16` to fix
+  a readout conversion error.
+
 ## [0.3.0] - 2024-05-23
 
 ### Added

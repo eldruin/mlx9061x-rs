@@ -91,13 +91,13 @@ where
     }
 
     /// Read the channel 1 raw IR data
-    pub fn raw_ir_channel1(&mut self) -> Result<u16, Error<E>> {
-        self.read_u16(Register::RAW_IR1)
+    pub fn raw_ir_channel1(&mut self) -> Result<i16, Error<E>> {
+        self.read_i16(Register::RAW_IR1)
     }
 
     /// Read the channel 2 raw IR data
-    pub fn raw_ir_channel2(&mut self) -> Result<u16, Error<E>> {
-        self.read_u16(Register::RAW_IR2)
+    pub fn raw_ir_channel2(&mut self) -> Result<i16, Error<E>> {
+        self.read_i16(Register::RAW_IR2)
     }
 
     /// Get emissivity epsilon

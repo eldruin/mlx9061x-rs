@@ -73,8 +73,8 @@ where
     }
 
     /// Read the raw IR data
-    pub fn raw_ir(&mut self) -> Result<u16, Error<E>> {
-        self.read_u16(Register::RAW_IR)
+    pub fn raw_ir(&mut self) -> Result<i16, Error<E>> {
+        self.read_i16(Register::RAW_IR)
     }
 
     /// Get emissivity epsilon

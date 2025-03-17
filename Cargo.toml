@@ -35,8 +35,9 @@ smbus-pec = "1"
 defmt = { version = "0.3.6", optional = true }
 
 [dev-dependencies]
-linux-embedded-hal = "0.4"
 embedded-hal-mock = { version = "0.10", default-features = false, features = ["eh1"] }
+[target.'cfg(target_os = "linux")'.dev-dependencies]
+linux-embedded-hal = "0.4"
 
 [profile.release]
 lto = true
