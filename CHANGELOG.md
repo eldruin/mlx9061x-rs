@@ -48,7 +48,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 Initial release to crates.io.
 
 <!-- next-url -->
-
 [Unreleased]: https://github.com/eldruin/mlx9061x-rs/compare/v0.3.0...HEAD
 
 [0.3.0]: https://github.com/eldruin/mlx9061x-rs/compare/v0.2.1...v0.3.0
